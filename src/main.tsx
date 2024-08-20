@@ -3,12 +3,14 @@ import { createRoot } from "react-dom/client";
 import "../globals.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Chat } from "./pages/Chat.tsx";
-import { Dashboard } from "./pages/Dashboard.tsx";
 import { Home } from "./pages/Home.tsx";
 import RootLayout from "./layouts/RootLayout.tsx";
 import DashboardLayout from "./layouts/DashboardLayout.tsx";
 import { SignInPage } from "./pages/SignInPage.tsx";
 import { SignUpPage } from "./pages/SignUpPage.tsx";
+import PdfChat from "./pages/PdfChat.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
+import ChatLayout from "./pages/ChatLayout.tsx";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,15 @@ const router = createBrowserRouter([
           {
             path: "/dashboard",
             element: <Dashboard />,
+          },
+          {
+            element: <ChatLayout />,
+            children: [
+              {
+                path: "/chat",
+                element: <PdfChat/>
+              }
+            ]
           },
           {
             path: "/dashboard/chat/:id",

@@ -1,8 +1,9 @@
 import { useAuth } from '@clerk/clerk-react'
+import { Sidebar } from '../components/Sidebar'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
-const DashboardLayout = () => {
+const ChatLayout = () => {
 
     const { userId, isLoaded } = useAuth()
 
@@ -15,10 +16,11 @@ const DashboardLayout = () => {
 
     if(!isLoaded) return <p>Loading...</p>
   return (
-    <div className='flex h-full px-4'>
+    <div className='flex h-full'>
+        <Sidebar/>
         <Outlet/>
     </div>
   )
 }
 
-export default DashboardLayout
+export default ChatLayout

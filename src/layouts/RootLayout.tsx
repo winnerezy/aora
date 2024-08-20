@@ -15,7 +15,7 @@ const RootLayout = () => {
   return (
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
       <div className="flex flex-col h-screen">
-        <header className="flex items-center justify-between bg-secondary-content px-4 py-2">
+        <header className="flex items-center justify-between bg-neutral px-4 py-2">
           <Link to="/home">
             <span className="text-2xl font-bold tracking-wide">Aora</span>
           </Link>
