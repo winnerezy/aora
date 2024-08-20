@@ -1,0 +1,40 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { Chat } from './pages/Chat.tsx'
+import { Dashboard } from './pages/Dashboard.tsx'
+import { Home } from './pages/Home.tsx'
+import RootLayout from './layouts/RootLayout.tsx'
+import DashboardLayout from './layouts/DashboardLayout.tsx'
+
+const router = createBrowserRouter([
+  {
+    element: <RootLayout/>,
+    children: [
+      {
+        path: "/",
+        element: <Home/>
+      },
+      {
+        element: <DashboardLayout/>,
+        children: [
+          {
+            path: '/dashboard',
+            element: <Dashboard/>
+          },
+          {
+            path: '/dashboard/chat/:id',
+            element: <Chat/>
+          }
+        ]
+      }
+    ]
+  }
+])
+  
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+   <RouterProvider router={router}/>
+  </StrictMode>,
+)
