@@ -11,7 +11,7 @@ export const DashboardBar = () => {
           if(modal) modal.showModal()
         }}
       >
-        Create New Chat
+        Upload PDF
       </button>
     </div>
   );
