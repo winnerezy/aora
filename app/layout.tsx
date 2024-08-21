@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className={poppins.className}>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/" >
       <div className="flex flex-col min-h-screen">
-        <header className="flex items-center justify-between bg-neutral px-4 py-2">
+        <header className="flex items-center justify-between bg-[#1a1a24] px-4 py-2">
           <Link href="/home">
             <span className="text-2xl font-bold tracking-wide">Aora</span>
           </Link>

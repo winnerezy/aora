@@ -1,7 +1,6 @@
 // import { TypeAnimation } from "react-type-animation"
-import Link from "next/link";
-
-const Home = () => {
+import Link from "next/link"
+export default function Page() {
 
   return (
     <section className="relative flex flex-col items-center justify-center text-center gap-6 self-center w-full h-full">
@@ -52,4 +51,3 @@ const Home = () => {
   );
 };
 
-export default Home

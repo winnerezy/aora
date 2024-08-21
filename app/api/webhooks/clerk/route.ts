@@ -61,6 +61,7 @@ export async function POST(req: Request) {
       evt.data;
 
     const user = {
+      userid: id,
       email: email_addresses[0].email_address,
       username: username,
       firstName: first_name,
@@ -74,7 +75,7 @@ export async function POST(req: Request) {
     if (newUser) {
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
-          email: newUser.email,
+          userId: newUser.userid,
         },
       });
     }

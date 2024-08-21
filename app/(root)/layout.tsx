@@ -1,6 +1,7 @@
 'use client'
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
 export default function RootLayout({
   children,
 }: Readonly<{

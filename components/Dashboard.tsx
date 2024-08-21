@@ -34,7 +34,7 @@ const Dashboard = () => {
   return (
     <>
       {files && files?.length !== 0 ? (
-        <ul className="mt-8 gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-8 gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 transition">
           {files
             .sort(
               (a, b) =>

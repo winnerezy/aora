@@ -15,6 +15,7 @@ datasource db {
 
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userid    String   @unique
   email     String   @unique
   username  String?
   firstName String?
@@ -34,8 +35,8 @@ enum UploadStatus {
 model File {
   id           String       @id @default(auto()) @map("_id") @db.ObjectId
   name         String
-  userid       String       @db.ObjectId
-  user         User         @relation(fields: [userid], references: [id])
+  userid       String
+  user         User         @relation(fields: [userid], references: [userid])
   uploadStatus UploadStatus @default(PENDING)
   url          String
   key          String
