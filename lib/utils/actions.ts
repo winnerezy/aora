@@ -53,6 +53,9 @@ export const getUserFiles = async () => {
     where: {
       userid: session.user?.id,
     },
+    include: {
+      message: true
+    }
   });
 
   return files;
@@ -114,4 +117,28 @@ export const getFileUploadStatus = async(fileId: string) => {
    if(!file) return {status: "PENDING" as const}
 
    return {status: file.uploadStatus}
+}
+
+export const getFileMessages = async (fileId: string, limit: number, cursor?: string) => {
+  const messages = await prisma.message.findMany({
+    take: limit + 1,
+    where: {
+      fileId
+    },
+    cursor: cursor ? { id: cursor } : undefined,
+    orderBy: {
+      createdAt: "desc"
+    }
+  })
+
+  let nextCursor: typeof cursor | undefined = undefined
+  if (messages.length > limit) {
+    const nextItem = messages.pop()
+    nextCursor = nextItem?.id
+  }
+
+  return {
+    messages,
+    nextCursor,
+  }
 }

@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import ChatInput from "./ChatInput"
-import Messages from "../Messages"
+import Messages from "./Messages"
 import { getFileUploadStatus } from "@/lib/utils/actions"
 import { BiChevronLeft, BiXCircle } from "react-icons/bi"
 import Link from "next/link"
@@ -73,9 +73,9 @@ if(data?.status === "FAILED"){
    <ChatContextProvider fileId={fileId}>
      <div className="relative min-h-full divide-y divide-zinc-200 flex flex-col justify-between gap-2">
       <div className="flex-1 justify-between flex flex-col mb-28">
-        <Messages />
+        <Messages fileId={fileId} />
       </div>
-      <ChatInput isDisabled={isLoading} fileUrl={fileUrl}/>
+      <ChatInput isDisabled={isLoading} fileUrl={fileUrl} fileId={fileId}/>
     </div>
    </ChatContextProvider>
   )

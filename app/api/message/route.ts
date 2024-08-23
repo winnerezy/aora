@@ -15,7 +15,7 @@ export const POST = async (req: NextRequest) => {
 
     const body = await req.json()
 
-    const { fileId, message } = sendMessageValidator.parse(body)
+    const { fileId, message, isUserMessage } = sendMessageValidator.parse(body)
 
     const file = await prisma.file.findFirst({
         where: {
@@ -33,9 +33,10 @@ export const POST = async (req: NextRequest) => {
     await prisma.message.create({
         data: {
             text: message,
-            isUserMessage: true,
+            isUserMessage,
             userId: session.user.id,
             fileId
         }
     })
+    return NextResponse.json(JSON.stringify({ message: "Successful"}))
 }

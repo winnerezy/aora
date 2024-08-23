@@ -65,8 +65,8 @@ const Dashboard = () => {
                     <span>{format(file.createdAt, "MMM yyyy")}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <BiMessage />
-                    <span>0</span>
+                    <BiMessage className="size-5" />
+                    <span>{ file.message.length }</span>
                   </div>
                   <button
                     onClick={() => deleteFile(file.id)}

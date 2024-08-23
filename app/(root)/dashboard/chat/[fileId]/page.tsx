@@ -16,7 +16,6 @@ export default async function Page({ params }: PageProps) {
 
   const session = await auth()
 
-
   if (!session) redirect("/home");
 
   const file = await prisma.file.findFirst({
