@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider, SignedIn, UserButton } from "@clerk/nextjs";
 import "react-loading-skeleton/dist/skeleton.css"
 
 import Link from "next/link";
-
-const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"] });
 
@@ -23,23 +20,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/" >
-      <div className="flex flex-col min-h-screen">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.5.136/pdf.min.mjs"></script>
+      <div className="flex flex-col min-h-screen md:h-screen">
         <header className="flex items-center justify-between bg-[#1a1a24] px-4 py-2">
-          <Link href="/home">
+          <Link href="/dashboard">
             <span className="text-2xl font-bold tracking-wide">Aora</span>
           </Link>
           <div>
-            <SignedIn>
-              <UserButton/>
-            </SignedIn>
+      
           </div>
         </header>
         <main className="flex h-full overflow-hidden bg-neutral">
           {children}
         </main>
       </div>
-    </ClerkProvider>
       </body>
     </html>
   );

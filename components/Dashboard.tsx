@@ -9,7 +9,8 @@ import { format } from "date-fns";
 import { useState } from "react";
 
 const Dashboard = () => {
-    const [currentlyDeletingFile, setCurrentlyDeletedFile] = useState<string | null>(null)
+  
+  const [currentlyDeletingFile, setCurrentlyDeletedFile] = useState<string | null>(null)
   const queryClient = useQueryClient();
 
   const { data: files, isLoading } = useQuery({
@@ -21,13 +22,13 @@ const Dashboard = () => {
     mutationFn: deleteUserFile,
     onSuccess: () => {
       console.log("File deleted successfully");
-     queryClient.invalidateQueries({ queryKey: ["files"], type: 'active' });
+      queryClient.invalidateQueries({ queryKey: ["files"], type: 'active' });
     },
     onMutate(id) {
-        setCurrentlyDeletedFile(id)
+      setCurrentlyDeletedFile(id)
     },
     onSettled(data) {
-        setCurrentlyDeletedFile(null)
+      setCurrentlyDeletedFile(null)
     },
   });
 
@@ -71,12 +72,12 @@ const Dashboard = () => {
                     onClick={() => deleteFile(file.id)}
                     className="bg-red-500  rounded-lg w-full flex items-center justify-center"
                   >
-                 {
-                    currentlyDeletingFile === file.id ?
-                    <span className="loading loading-spinner loading-x"/>
-                    : 
-                    <BiTrash className="size-6 " />
-                 }
+                    {
+                      currentlyDeletingFile === file.id ?
+                        <span className="loading loading-spinner loading-x" />
+                        :
+                        <BiTrash className="size-6 " />
+                    }
                   </button>
                 </div>
               </li>

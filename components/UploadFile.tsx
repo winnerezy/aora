@@ -110,13 +110,13 @@ const UploadDropzone = () => {
                   <span>Click to upload</span>
                   {""}
                   <span>or drag n drop</span>
-                  <p>Upload up to 32MB</p>
+                  <span>Upload up to 32MB</span>
                 </p>
               </div>
               {acceptedFiles && acceptedFiles[0] ? (
                 <div className="max-w-xs bg-zinc-500 flex rounded-md overflow-hidden outline-zinc-200 divide-x divide-zinc-200">
                   <div className="px-4 py-2 h-full grid place-content-center">
-                    <FaFile classNameh-6 />
+                    <FaFile className="h-6" />
                   </div>
                   <p className="px-3 py-2 h-full text-sm truncate">
                     {acceptedFiles[0].name}

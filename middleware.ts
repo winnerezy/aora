@@ -1,11 +1,17 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { auth } from '@/auth';
+import { NextResponse } from 'next/server';
 
-const isProtectedRoute = createRouteMatcher(["/dashboard"]);
-export default clerkMiddleware((auth, req) => {
-  if (isProtectedRoute(req)) {
-    auth().protect(); // Protect the route if it matches the defined criteria
+export default auth((req) => {
+  const protectedRoutes = ['/dashboard'];
+
+  if (!req.auth && protectedRoutes.includes(req.nextUrl.pathname)) {
+    return NextResponse.redirect(new URL('/sign-in', req.nextUrl.origin));
   }
+  return NextResponse.next();
 });
+
 export const config = {
-  matcher: [ '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
 };
