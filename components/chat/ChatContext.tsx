@@ -32,10 +32,10 @@ interface Props {
   children: React.ReactNode;
 }
 
-interface PaginatedProps {
-  pages: { messages: MessageProps[] }[];
-  messages: MessageProps[];
-}
+  type PaginatedProps = {
+     messages: { id: string; isUserMessage: boolean; text: string }[];
+  };
+
 
 export const ChatContextProvider = ({ fileId, fileUrl, children }: Props) => {
   const [message, setMessage] = useState<string>("");
@@ -161,19 +161,10 @@ export const ChatContextProvider = ({ fileId, fileUrl, children }: Props) => {
 
       queryClient.setQueryData<PaginatedProps | undefined>(
         ["messages", fileId],
-        (old) => {
+        (old: PaginatedProps | undefined) => {
           // Check if `old` exists and is structured correctly
           const oldMessages = old!.messages;
-          if (old && old.pages) {
-            const newMessagesArray = [
-              ...(old.pages[0]?.messages || []),
-              newMessage,
-            ];
-            return newMessagesArray;
-          } else {
-            // Initialize structure if `old` is undefined or malformed
-            return { messages: [newMessage, ...oldMessages] };
-          }
+          return { messages: [newMessage, ...oldMessages] }
         }
       );
 
