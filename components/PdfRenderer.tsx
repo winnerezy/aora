@@ -33,6 +33,7 @@ const PdfRenderer = ({ url }: PdfRenderProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1)
 
   type TpageValidator = z.infer<typeof pageValidator>
+
   const { handleSubmit, register, formState: { errors }, setValue } = useForm<TpageValidator>({
     defaultValues: {
       page: String(currentPage)
@@ -57,7 +58,7 @@ const PdfRenderer = ({ url }: PdfRenderProps) => {
             <BiChevronDown />
           </button>
           <div className="flex items-center gap-1.5">
-            <input {...register("page")} value={currentPage} className={cn("items-center p-2 input w-12 h-8 bg-white text-black", errors.page && "border border-red-500")}
+            <input {...register('page')} value={currentPage} className={cn("items-center p-2 input w-12 h-8 bg-white text-black", errors.page && "border border-red-500")}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   handleSubmit(handlePageSubmit)()
@@ -89,7 +90,7 @@ const PdfRenderer = ({ url }: PdfRenderProps) => {
             setNumPages(numPages)
           }}
           file={url} className="max-h-full">
-          <Page width={width ? width : 1} pageNumber={currentPage} />
+          <Page width={width ? width : 1} scale={1} pageNumber={currentPage} />
         </Document>
       </div>
     </div>

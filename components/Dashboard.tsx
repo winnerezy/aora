@@ -21,7 +21,6 @@ const Dashboard = () => {
   const { mutate: deleteFile } = useMutation({
     mutationFn: deleteUserFile,
     onSuccess: () => {
-      console.log("File deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["files"], type: 'active' });
     },
     onMutate(id) {
