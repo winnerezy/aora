@@ -1,10 +1,8 @@
 "use server";
 
-import { Provider } from "next-auth/providers"
-import { User } from "@/types"
-import { prisma } from "./prisma";
 import { auth, signIn } from "@/auth";
 import { UploadedFileData } from "uploadthing/types";
+import { prisma } from "./prisma";
 
 export const signin = async (provider: string) => {
   await signIn(provider)
@@ -119,26 +117,24 @@ export const getFileUploadStatus = async(fileId: string) => {
    return {status: file.uploadStatus}
 }
 
-export const getFileMessages = async (fileId: string, limit: number, cursor?: string) => {
+export const getFileMessages = async (fileId: string, pageParam: string | undefined) => {
+  const limit = 20
   const messages = await prisma.message.findMany({
-    take: limit + 1,
+    take: limit,
     where: {
       fileId
     },
-    cursor: cursor ? { id: cursor } : undefined,
+    cursor: pageParam ? { id: pageParam } : undefined,
+    skip: fileId === "" ? 0 : 1,
     orderBy: {
       createdAt: "desc"
     }
   })
 
-  let nextCursor: typeof cursor | undefined = undefined
-  if (messages.length > limit) {
-    const nextItem = messages.pop()
-    nextCursor = nextItem?.id
-  }
 
+  const nextCursor = messages.length === 10 ? messages[limit -1].id : undefined
   return {
     messages,
-    nextCursor,
+    nextCursor
   }
 }

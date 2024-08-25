@@ -1,8 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Updater, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 import { pdfjs } from "react-pdf";
 import { gemini } from "@/lib/gemini";
-import { Message as MessageProps } from "@prisma/client";
+import { Message, Message as MessageProps } from "@prisma/client";
 
 type ContextType = {
   addMessage: ({
@@ -33,7 +33,10 @@ interface Props {
 }
 
   type PaginatedProps = {
-     messages: { id: string; isUserMessage: boolean; text: string }[];
+     pageParam: string[] | [undefined],
+     pages: {
+      messages: Partial<Message>[] | undefined
+     }[]
   };
 
 
@@ -147,10 +150,7 @@ export const ChatContextProvider = ({ fileId, fileUrl, children }: Props) => {
       await queryClient.cancelQueries({ queryKey: ["messages", fileId] });
 
       // Snapshot the previous value
-      const previousMessages = queryClient.getQueryData<{
-        pages: { messages: MessageProps[] }[];
-        messages: MessageProps[];
-      }>(["messages", fileId]);
+      const previousMessages = queryClient.getQueryData(["messages"]);
 
       // Optimistically update to the new value
       const newMessage = {
@@ -163,8 +163,9 @@ export const ChatContextProvider = ({ fileId, fileUrl, children }: Props) => {
         ["messages", fileId],
         (old: PaginatedProps | undefined) => {
           // Check if `old` exists and is structured correctly
-          const oldMessages = old!.messages;
-          return { messages: [newMessage, ...oldMessages] }
+          console.log(old)
+          const oldMessages = old?.pages[0].messages
+          return { pageParam: [undefined], pages: [ {messages: [...oldMessages!, newMessage] }] }
         }
       );
 
