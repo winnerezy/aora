@@ -1,8 +1,7 @@
 // import { TypeAnimation } from "react-type-animation"
-import Link from "next/link"
+import Link from "next/link";
 import { BiStar } from "react-icons/bi";
 export default function Page() {
-
   return (
     <section className="relative flex flex-col items-center justify-center text-center gap-6 self-center w-full h-full">
       <section className="flex flex-col md:flex-row">
@@ -14,15 +13,24 @@ export default function Page() {
             Read, Discuss, Discover: The AI-Powered PDF Companion
           </h2>
           <h3 className="w-[80%] md:w-[70%]">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sint
-            consequuntur sit commodi optio iusto vero, fuga beatae saepe, impedit
-            excepturi veniam distinctio sapiente dolores delectus assumenda quae
-            id eius quod?
+            Aora is an innovative tool designed to enhance your experience with PDF
+            documents. This AI-powered companion not only allows you to read
+            PDFs seamlessly but also facilitates intelligent discussions and
+            deep exploration of the content. With advanced natural language
+            processing capabilities, it can summarize documents, answer
+            questions, and provide insights, making it easier to understand
+            complex information. Whether you're a student, professional, or
+            researcher, this tool transforms your interaction with PDF files,
+            making reading and learning more efficient and engaging. Dive into
+            your PDFs like never before—read, discuss, and discover with the
+            power of AI.
           </h3>
-          <Link href="/dashboard" className="btn w-36 bg-primary hover:bg-primary/80 text-white rounded-xl">
+          <Link
+            href="/dashboard"
+            className="btn w-36 bg-primary hover:bg-primary/80 text-white rounded-xl"
+          >
             Get Started
           </Link>
-
         </div>
 
         {/* <Boxes className="relative w-full h-screen"/> */}
@@ -99,5 +107,4 @@ export default function Page() {
       </div>
     </section>
   );
-};
-
+}

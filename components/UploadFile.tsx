@@ -105,7 +105,7 @@ const UploadDropzone = () => {
               className="flex flex-col items-center justify-center w-full h-full cursor-pointer bg-zinc-600 hover:bg-zinc-700"
             >
               <div className="flex flex-col items-center justify-center pt-4 pb-4 text-center">
-                <BiCloud className="mb-2" />
+                <BiCloud className="mb-2 size-10" />
                 <p className="text-sm text-zinc-300 ">
                   <span>Click to upload</span>
                   {""}
@@ -124,9 +124,9 @@ const UploadDropzone = () => {
                 </div>
               ) : null}
               {isUploading ? (
-                <div className="w-full mt-4 mx-auto max-w-xs">
+                <div className="w-full mt-4 mx-auto max-w-xs px-4">
                   <progress
-                    className="progress"
+                    className="progress max-w-xs"
                     value={uploadProgress}
                     max={100}
                   >
@@ -134,7 +134,7 @@ const UploadDropzone = () => {
                   </progress>
                 </div>
               ) : null}
-              <input type="file" id="dropzone-file" {...getInputProps} hidden/>
+              <input type="file" id="dropzone-file" {...getInputProps()} hidden accept=".pdf"/>
             </label>
           </div>
         </div>
