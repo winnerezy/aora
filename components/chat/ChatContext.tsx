@@ -1,5 +1,16 @@
-import { Updater, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import {
+  Updater,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useRef,
+  useState,
+} from "react";
 import { pdfjs } from "react-pdf";
 import { gemini } from "@/lib/gemini";
 import { Message, Message as MessageProps } from "@prisma/client";
@@ -32,13 +43,12 @@ interface Props {
   children: React.ReactNode;
 }
 
-  type PaginatedProps = {
-     pageParam: string[] | [undefined],
-     pages: {
-      messages: Partial<Message>[] | undefined
-     }[]
-  };
-
+type PaginatedProps = {
+  pageParam: string[] | [undefined];
+  pages: {
+    messages: Partial<Message>[] | undefined;
+  }[];
+};
 
 export const ChatContextProvider = ({ fileId, fileUrl, children }: Props) => {
   const [message, setMessage] = useState<string>("");
@@ -50,6 +60,8 @@ export const ChatContextProvider = ({ fileId, fileUrl, children }: Props) => {
   const queryClient = useQueryClient();
 
   const [pdfText, setPdfText] = useState<string>("");
+
+  const backupMessage = useRef("");
 
   const {
     data,
@@ -110,6 +122,8 @@ export const ChatContextProvider = ({ fileId, fileUrl, children }: Props) => {
         throw new Error("Failed to send message");
       }
 
+      const ans = await res.json();
+
       const model = gemini.getGenerativeModel({ model: "gemini-pro" });
 
       const chat = model.startChat({
@@ -125,12 +139,14 @@ export const ChatContextProvider = ({ fileId, fileUrl, children }: Props) => {
           {
             role: "model",
             parts: [{ text: "Alright, what would you like to know?" }],
-          },
+          }
         ],
         generationConfig: {
           maxOutputTokens: 100,
         },
       });
+
+      console.log(message)
       const result = await chat.sendMessage(message);
       const response = result.response;
 
@@ -142,45 +158,103 @@ export const ChatContextProvider = ({ fileId, fileUrl, children }: Props) => {
           isUserMessage: false,
         }),
       });
-      return response.text();
+
+      console.log(response.text())
+      return response.text()
+
     },
     onMutate: async ({ message, isUserMessage }) => {
+      backupMessage.current = message;
+
       setMessage("");
       setIsLoading(true);
       await queryClient.cancelQueries({ queryKey: ["messages", fileId] });
 
       // Snapshot the previous value
-      const previousMessages = queryClient.getQueryData(["messages"]);
+      const previousMessages: PaginatedProps | undefined =
+        queryClient.getQueryData(["messages"]);
 
       // Optimistically update to the new value
       const newMessage = {
         id: crypto.randomUUID(),
         isUserMessage,
         text: message,
+        createdAt: new Date()
       };
 
+      console.log(newMessage)
       queryClient.setQueryData<PaginatedProps | undefined>(
         ["messages", fileId],
         (old: PaginatedProps | undefined) => {
           // Check if `old` exists and is structured correctly
-          console.log(old)
-          const oldMessages = old?.pages[0].messages
-          return { pageParam: [undefined], pages: [ {messages: [...oldMessages!, newMessage] }] }
+          if (!old) {
+            return {
+              pageParam: [],
+              pages: [],
+            };
+          }
+          let newPages = [...old?.pages];
+
+          let latestPage = newPages[0];
+
+          latestPage.messages = [newMessage, ...latestPage.messages!];
+
+          newPages[0] = latestPage;
+
+          return {
+            ...old,
+            pages: newPages,
+          };
         }
       );
 
+      setIsLoading(true);
       // Return the context object with the snapshotted value
-      return { previousMessages };
+      return {
+        previousMessages:
+          previousMessages?.pages.flatMap((page) => page.messages) ?? [],
+      };
     },
-    onSuccess: () => {
+    onSuccess:  (response) => {
       setMessage("");
+      setIsLoading(false);
+
+      // Add the AI response to the messages
+      const newAIMessage = {
+          id: crypto.randomUUID(),
+          isUserMessage: false,
+          text: response,  // Directly use the AI response
+          createdAt: new Date(Date.now()),
+      };
+
+      queryClient.setQueryData<PaginatedProps | undefined>(
+          ["messages", fileId],
+          (old: PaginatedProps | undefined) => {
+              if (!old) {
+                  return {
+                      pageParam: [],
+                      pages: [],
+                  };
+              }
+              let newPages = [...old.pages];
+              let latestPage = newPages[0];
+              latestPage.messages = [newAIMessage, ...latestPage.messages!];
+              newPages[0] = latestPage;
+
+              return {
+                  ...old,
+                  pages: newPages,
+              };
+          }
+      );
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["messages", fileId] });
       setIsLoading(false);
+      queryClient.invalidateQueries({ queryKey: ["messages", fileId] });
     },
-    onError: (error) => {
+    onError: (error, _, context) => {
       console.log("Error found ", error.message);
+      setMessage(backupMessage.current);
     },
   });
 

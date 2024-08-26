@@ -1,10 +1,9 @@
 import { getFileMessages } from "@/lib/utils/actions";
-import {
-  useInfiniteQuery
-} from "@tanstack/react-query";
-import React, { useEffect, useRef } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useContext, useEffect, useRef } from "react";
 import { BiMessage } from "react-icons/bi";
 import { useInView } from "react-intersection-observer";
+import { ChatContext } from "./ChatContext";
 import Message from "./Message";
 
 interface MessagesProps {
@@ -13,6 +12,7 @@ interface MessagesProps {
 
 const Messages = ({ fileId }: MessagesProps) => {
 
+  const { isLoading: isAILoading } = useContext(ChatContext)
   const {
     data,
     isLoading,
@@ -28,9 +28,23 @@ const Messages = ({ fileId }: MessagesProps) => {
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? "",
   });
 
+  // AI loading  response
+  const loadingMessages = {
+    id: "loading-message",
+    text: "loading...",
+    isUserMessage: false,
+    createdAt: new Date()
+  };
+  const messages = data?.pages.flatMap((page) => page.messages);
+
+  // both the loading response and the messages array
+  const combinedMessages = [
+    ...(isAILoading ? [loadingMessages] : []),
+    ...(messages ?? []),
+  ];
   const { ref, inView } = useInView();
 
-  const bottomRef = useRef<HTMLDivElement | null>(null)
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   // get older chats when scrolling up
   useEffect(() => {
@@ -40,30 +54,17 @@ const Messages = ({ fileId }: MessagesProps) => {
   }, [inView]);
 
   useEffect(() => {
-    if(bottomRef.current){
-      bottomRef.current.scrollIntoView({ behavior: "smooth" })
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [])
+  }, []);
 
   return (
-    <div className="relative max-h-[calc(100vh-3.5rem-7rem)] flex flex-col flex-1 gap-4 p-4 overflow-y-auto">
+    <div className="relative max-h-[calc(100vh-3.5rem-7rem)] flex flex-col-reverse flex-1 gap-4 p-4 overflow-y-auto">
       <span style={{ visibility: "hidden" }} ref={ref}></span>
-      {data && data.pages ? (
-        data.pages.sort((a, b) => a.messages[0].createdAt.getTime() - b.messages[0].createdAt.getTime()).map((page) => (
-          <React.Fragment key={page.nextCursor ?? "lastPage"}>
-
-            {isFetchingNextPage && (
-              <div className="flex flex-col items-center gap-2 absolute top-2 left-[50%] -tanslate-x-[50%]">
-                <span className="loading loading-spinner loading-lg text-white" />
-              </div>
-            )}
-            <div className="w-full flex flex-col gap-4">
-              {page.messages.map((message) => {
-                return <Message message={message} key={message.id} />;
-              })}
-            <div ref={bottomRef}/>
-            </div>
-          </React.Fragment >
+      {combinedMessages && combinedMessages.length > 0 ? (
+        combinedMessages.map((message, i) => (
+          <Message message={message} key={message.id} />
         ))
       ) : isLoading ? (
         <div className="relative min-h-full flex flex-col justify-between gap-2 divide-y">

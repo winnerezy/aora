@@ -26,7 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       try {
         const existingUser = await prisma.user.findUnique({
           where: {
-            id: user.id
+            email: user.email!
           }
         })
 
@@ -40,7 +40,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             }
           })
-        }
+        } 
+        
         return true
       } catch (error: any) {
         console.log("Error signing in", error.message)

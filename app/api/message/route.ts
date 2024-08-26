@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest) => {
         })
     }
 
-    await prisma.message.create({
+    const messageData = await prisma.message.create({
         data: {
             text: message,
             isUserMessage,
@@ -38,5 +38,5 @@ export const POST = async (req: NextRequest) => {
             fileId
         }
     })
-    return NextResponse.json(JSON.stringify({ message: "Successful"}))
+    return NextResponse.json(JSON.stringify(messageData))
 }

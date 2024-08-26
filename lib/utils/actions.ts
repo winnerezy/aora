@@ -118,21 +118,21 @@ export const getFileUploadStatus = async(fileId: string) => {
 }
 
 export const getFileMessages = async (fileId: string, pageParam: string | undefined) => {
-  const limit = 20
+  const limit = 10
   const messages = await prisma.message.findMany({
     take: limit,
     where: {
       fileId
     },
     cursor: pageParam ? { id: pageParam } : undefined,
-    skip: fileId === "" ? 0 : 1,
+    skip: fileId === "" ? 1 : 0,
     orderBy: {
       createdAt: "desc"
     }
   })
 
 
-  const nextCursor = messages.length === 10 ? messages[limit -1].id : undefined
+  const nextCursor = messages.length === limit ? messages[limit - 1].id : undefined
   return {
     messages,
     nextCursor

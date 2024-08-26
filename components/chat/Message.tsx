@@ -1,8 +1,9 @@
 import { Message as MessageProps } from "@prisma/client";
 import cn from "classnames";
 import { marked } from "marked";
+import { ForwardedRef } from "react";
 
-const Message = ({ message }: { message: MessageProps }) => {
+const Message = ({ message }: { message: Partial<MessageProps>}) => {
   return (
     <div
       className={cn(
@@ -12,7 +13,7 @@ const Message = ({ message }: { message: MessageProps }) => {
     >
       <p
         className="font-medium text-md tracking-widest text-wrap"
-        dangerouslySetInnerHTML={{ __html: marked(message.text) }}
+        dangerouslySetInnerHTML={{ __html: marked(message.text!) }}
       ></p>
     </div>
   );

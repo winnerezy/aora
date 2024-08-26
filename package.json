@@ -33,6 +33,7 @@
     "pdf-parse": "^1.1.1",
     "pdf2json": "^3.1.4",
     "pdfjs": "^2.5.3",
+    "pdfjs-dist": "^4.5.136",
     "pdfreader": "^3.0.5",
     "prisma": "^5.18.0",
     "react": "^18",
