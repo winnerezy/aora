@@ -15,6 +15,8 @@ import { pdfjs } from "react-pdf";
 import { gemini } from "@/lib/gemini";
 import { Message, Message as MessageProps } from "@prisma/client";
 
+pdfjs.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js"
+
 type ContextType = {
   addMessage: ({
     message,

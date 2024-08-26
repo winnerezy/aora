@@ -23,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
+        <script src="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js" type="module"/>
         <div className="flex flex-col min-h-screen md:h-screen">
           <header className="flex items-center justify-between bg-[#1a1a24] px-4 py-2">
             <Link href="/dashboard">
