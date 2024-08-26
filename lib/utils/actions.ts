@@ -35,7 +35,7 @@ export const getCurrentUser = async () => {
   if (!session) return;
   const user = await prisma.user.findUnique({
     where: {
-      id: session.user?.id
+      email: session.user?.email!
     },
   });
   if (!user) return;
@@ -43,13 +43,14 @@ export const getCurrentUser = async () => {
 };
 
 export const getUserFiles = async () => {
-    const session = await auth()
+    
+  const user = await getCurrentUser()
 
-  if (!session) return;
+  if (!user) return;
 
   const files = await prisma.file.findMany({
     where: {
-      userid: session.user?.id,
+      userid: user.id,
     },
     include: {
       message: true
@@ -60,14 +61,15 @@ export const getUserFiles = async () => {
 };
 
 export const deleteUserFile = async (fileId: string) => {
-    const session = await auth()
+  const user = await getCurrentUser()
 
-    if (!session) return;
+  if (!user) return;
+
 
   const file = await prisma.file.findFirst({
     where: {
       id: fileId,
-      userid: session.user?.id,
+      userid: user.id,
     },
   });
 
@@ -83,14 +85,15 @@ export const deleteUserFile = async (fileId: string) => {
 };
 
 export const getFile = async (key: string) => {
-    const session = await auth()
+  const user = await getCurrentUser()
 
-    if (!session) return;
+  if (!user) return;
+
 
   const file = await prisma.file.findFirst({
     where: {
       key,
-      userid: session.user?.id,
+      userid: user.id,
     },
   });
 
@@ -101,14 +104,15 @@ export const getFile = async (key: string) => {
 };
 
 export const getFileUploadStatus = async(fileId: string) => {
-  const session = await auth()
+  const user = await getCurrentUser()
 
-  if (!session) return;
+  if (!user) return;
+
 
   const file = await prisma.file.findUnique({
     where: {
       id: fileId,
-      userid: session.user?.id
+      userid: user.id
     }
    })
 

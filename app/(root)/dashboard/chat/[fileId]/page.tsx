@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import Chat from "@/components/chat/Chat";
 import PdfRenderer from "@/components/PdfRenderer";
+import { getCurrentUser } from "@/lib/utils/actions";
 import { prisma } from "@/lib/utils/prisma";
 import { notFound, redirect } from "next/navigation";
 import React from "react";
@@ -14,14 +15,14 @@ interface PageProps {
 export default async function Page({ params }: PageProps) {
   const { fileId } = params;
 
-  const session = await auth()
+  const user = await getCurrentUser()
 
-  if (!session) redirect("/home");
+  if (!user) redirect("/home");
 
   const file = await prisma.file.findFirst({
     where: {
       id: fileId,
-      userid: session.user?.id,
+      userid: user.id,
     },
   });
 

@@ -1,13 +1,15 @@
 import { auth } from "@/auth";
+import { getCurrentUser } from "@/lib/utils/actions";
 import { prisma } from "@/lib/utils/prisma";
 import { sendMessageValidator } from "@/lib/validators/SendMessageValidator";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
 
-    const session = await auth()
+    const user = await getCurrentUser()
 
-    if (!session?.user) {
+
+    if (!user) {
         return NextResponse.json(JSON.stringify({ message: "Unauthorized" }), {
             status: 401
         })
@@ -20,7 +22,7 @@ export const POST = async (req: NextRequest) => {
     const file = await prisma.file.findFirst({
         where: {
             id: fileId,
-            userid: session.user.id
+            userid: user.id
         }
     })
 
@@ -34,7 +36,7 @@ export const POST = async (req: NextRequest) => {
         data: {
             text: message,
             isUserMessage,
-            userId: session.user.id,
+            userId: user.id,
             fileId
         }
     })

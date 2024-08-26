@@ -1,9 +1,6 @@
 'use client'
 
 import { Document, Page } from "react-pdf";
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-import 'react-pdf/dist/Page/TextLayer.css';
-import { pdfjs } from 'react-pdf';
 import { useResizeDetector } from "react-resize-detector"
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { useState } from "react";
@@ -11,12 +8,16 @@ import { useForm } from "react-hook-form"
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
 import cn from "classnames"
+import { pdfjs } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
   import.meta.url,
 ).toString();
 
+console.log(import.meta.url)
 interface PdfRenderProps {
   url: string
 }

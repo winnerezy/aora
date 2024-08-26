@@ -1,8 +1,6 @@
 import { UploadFile } from "@/components/UploadFile";
 import Dashboard from "@/components/Dashboard";
 import { DashboardBar } from "@/components/DashboardBar";
-import { getCurrentUser } from "@/lib/utils/actions";
-import { auth } from "@/auth";
 
 const Page = async () => {
 
