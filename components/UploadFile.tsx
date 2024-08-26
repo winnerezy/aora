@@ -110,7 +110,7 @@ const UploadDropzone = () => {
                   <span>Click to upload</span>
                   {""}
                   <span>or drag n drop</span>
-                  <span>Upload up to 32MB</span>
+                  <span>Upload up to 16MB</span>
                 </p>
               </div>
               {acceptedFiles && acceptedFiles[0] ? (
@@ -173,10 +173,3 @@ export const UploadFile = () => {
     </dialog>
   );
 };
-// useEffect(()=> {
-//   new PdfReader().parseFileItems(pdf, (err, item) => {
-//       if(err) console.log(err)
-//       else if(!item) console.log("End of file")
-//       else if(item.text) console.log(item.text)
-//   })
-// }, [])

@@ -38,7 +38,6 @@ export const getCurrentUser = async () => {
       email: session.user?.email!
     },
   });
-  if (!user) return;
   return user;
 };
 

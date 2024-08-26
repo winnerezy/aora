@@ -10,8 +10,8 @@ const Auth = () => {
     }
 
   return (
-    <div className='relative w-[700px] h-[700px] bg-zinc-700 rounded-md flex flex-col items-center justify-center gap-4 p-4'>
-        <h3 className="text-3xl font-semibold absolute top-4">Welcome To Aora</h3>
+    <div className='relative w-[600px] h-[500px] bg-gray-700 rounded-md flex flex-col items-center justify-center gap-8 p-4'>
+        <h3 className="text-4xl font-semibold absolute top-8">Welcome To Aora</h3>
         <button onClick={() => handleSignIn("google")} className="bg-white w-[70%] h-14 rounded-md p-2 flex gap-2 items-center justify-center">
             <FcGoogle className="size-8"/>
             <span className="text-black font-medium">Sign In WIth Google</span>

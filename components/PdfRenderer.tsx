@@ -11,7 +11,7 @@ import cn from "classnames";
 import { pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { Worker } from "@react-pdf-viewer/core";
+import { ScrollMode, Worker } from "@react-pdf-viewer/core";
 import { Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 
@@ -98,20 +98,8 @@ const PdfRenderer = ({ url }: PdfRenderProps) => {
       </div>
       <div className="flex-1 w-full overflow-y-auto" ref={ref}>
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-          <Viewer fileUrl={url} />;
+          <Viewer fileUrl={url} scrollMode={ScrollMode.Page} />;
         </Worker>
-        {/* <Document
-          loading={
-            <div className="flex justify-center">
-              <span className="my-24 loading loading-lg loading-spinner max-h-full" />
-            </div>
-          }
-          onLoadSuccess={({ numPages }) => {
-            setNumPages(numPages)
-          }}
-          file={url} className="max-h-full">
-          <Page width={width ? width : 1} scale={1} pageNumber={currentPage} />
-        </Document> */}
       </div>
     </div>
   );

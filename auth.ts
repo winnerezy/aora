@@ -1,55 +1,58 @@
-import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
-import Github from "next-auth/providers/github"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { prisma } from "./lib/utils/prisma"
+import NextAuth from "next-auth";
+import Google from "next-auth/providers/google";
+import Github from "next-auth/providers/github";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "./lib/utils/prisma";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Github({
       clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    }),
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    session({token, user, session}){
-      session.user.id = token.sub!
-      return session
+    session({ token, user, session }) {
+      session.user.id = token.sub!;
+      return session;
     },
     async jwt({ token, user, profile }) {
-        return token
+      return token;
     },
     redirect({ url, baseUrl }) {
       return `/dashboard`;
     },
-    async signIn({user}){
+    async signIn({ user }) {
       try {
         const existingUser = await prisma.user.findUnique({
           where: {
-            email: user.email!
-          }
-        })
+            email: user.email!,
+          },
+        });
 
-        if(!existingUser){
+        if (!existingUser) {
           await prisma.user.create({
             data: {
               email: user.email!,
               photo: user.image!,
-              username: user.name
+              username: user.name,
+            },
+          });
+        }
 
-            }
-          })
-        } 
-        
-        return true
+        return true;
       } catch (error: any) {
-        console.log("Error signing in", error.message)
-        return false
+        console.log("Error signing in", error.message);
+        return false;
       }
-    }
+    },
   },
   pages: {
     signIn: "/sign-in",
-    signOut: "/"
-  }
-})
+    signOut: "/",
+  },
+});
