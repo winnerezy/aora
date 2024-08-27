@@ -32,6 +32,7 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <section className="flex-1 flex justify-between flex-col h-[calc(100%-3.5rem)] max-lg:overflow-y-scroll">
+    <section className="flex-1 flex justify-between flex-col h-[calc(100%-3.5rem)] max-lg:overflow-y-scroll">
       <div className="w-full lg:flex xl:px-2">
         <div className="flex-1 xl:flex">
           <div className="pl-2 pr-4 pt-2 sm:px-4 lg:pr-12 xl:flex-1 w-full">

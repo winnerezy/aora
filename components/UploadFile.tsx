@@ -48,6 +48,8 @@ const UploadDropzone = () => {
 
   if (error) {
     console.log(error.message);
+  if (error) {
+    console.log(error.message);
   }
 
   return (
@@ -62,6 +64,8 @@ const UploadDropzone = () => {
             text: "Upload failed please try again",
 
             duration: 3000,
+
+            duration: 100000,
           }).showToast();
         }
 
@@ -77,6 +81,7 @@ const UploadDropzone = () => {
             close: true,
             gravity: "top",
             position: "left",
+            position: "left",
             style: {
               background: "linear-gradient(to right, #00b09b, #96c93d)",
             },
@@ -86,6 +91,7 @@ const UploadDropzone = () => {
         setIsUploading(true);
         clearInterval(progressInterval);
         setUploadProgress(100);
+        startPolling(key);
         startPolling(key);
       }}
     >
@@ -129,6 +135,13 @@ const UploadDropzone = () => {
                   </progress>
                 </div>
               ) : null}
+              <input
+                type="file"
+                id="dropzone-file"
+                {...getInputProps()}
+                hidden
+                accept=".pdf"
+              />
               <input
                 type="file"
                 id="dropzone-file"
