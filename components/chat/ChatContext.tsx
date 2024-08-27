@@ -126,43 +126,51 @@ export const ChatContextProvider = ({ fileId, fileUrl, children }: Props) => {
 
       const ans = await res.json();
 
-      const model = gemini.getGenerativeModel({ model: "gemini-pro" });
+      // const model = gemini.getGenerativeModel({ model: "gemini-pro" });
 
-      const chat = model.startChat({
-        history: [
-          {
-            role: "user",
-            parts: [
-              {
-                text: `Hi act as a tutor and answer questions about this text explain with examples if needed and also you can get data from the internet as well ${pdfText} if anything else say that this question is not relevant to the PDF.`,
-              },
-            ],
-          },
-          {
-            role: "model",
-            parts: [{ text: "Alright, what would you like to know?" }],
-          }
-        ],
-        generationConfig: {
-          maxOutputTokens: 100,
-        },
-      });
+      // const chat = model.startChat({
+      //   history: [
+      //     {
+      //       role: "user",
+      //       parts: [
+      //         {
+      //           text: `Hi act as a tutor and answer questions about this text explain with examples if needed and also you can get data from the internet as well ${pdfText} if anything else say that this question is not relevant to the PDF.`,
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       role: "model",
+      //       parts: [{ text: "Alright, what would you like to know?" }],
+      //     }
+      //   ],
+      //   generationConfig: {
+      //     maxOutputTokens: 100,
+      //   },
+      // });
 
-      console.log(message)
-      const result = await chat.sendMessage(message);
-      const response = result.response;
+      // console.log(message)
+      // const result = await chat.sendMessage(message);
+      // const response = result.response;
+
+      const res2 = await fetch('/api/pdf-chat', {
+        method: "POST", 
+        body: JSON.stringify({ message })
+      })
+
+      const response  = await res2.json()
+
 
       await fetch("/api/message", {
         method: "POST",
         body: JSON.stringify({
           fileId,
-          message: response.text(),
+          message: response,
           isUserMessage: false,
         }),
       });
 
-      console.log(response.text())
-      return response.text()
+      console.log(response)
+      return response
 
     },
     onMutate: async ({ message, isUserMessage }) => {

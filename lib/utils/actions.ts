@@ -3,6 +3,7 @@
 import { auth, signIn } from "@/auth";
 import { UploadedFileData } from "uploadthing/types";
 import { prisma } from "./prisma";
+import { Role } from "@prisma/client";
 
 export const signin = async (provider: string) => {
   await signIn(provider)
@@ -121,7 +122,7 @@ export const getFileUploadStatus = async(fileId: string) => {
 }
 
 export const getFileMessages = async (fileId: string, pageParam: string | undefined) => {
-  const limit = 10
+  const limit = 15
   const messages = await prisma.message.findMany({
     take: limit,
     where: {
@@ -140,4 +141,14 @@ export const getFileMessages = async (fileId: string, pageParam: string | undefi
     messages,
     nextCursor
   }
+}
+
+export const createMessage = async (content: string, role: Role, fileId: string) => {
+  await prisma.message.create({
+    data: {
+      content,
+      role,
+      fileId
+    }
+  })
 }

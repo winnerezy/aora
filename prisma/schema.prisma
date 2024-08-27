@@ -45,13 +45,18 @@ model File {
 }
 
 model Message {
-  id            String   @id @default(uuid())
-  text          String   @db.Text()
-  isUserMessage Boolean
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
-  User          User?    @relation(fields: [userId], references: [id])
-  userId        String?
-  File          File?    @relation(fields: [fileId], references: [id])
-  fileId        String?
+  id        String   @id @default(uuid())
+  content   String   @db.Text()
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  File      File?    @relation(fields: [fileId], references: [id])
+  fileId    String?
+}
+
+enum Role {
+  user
+  assistant
 }

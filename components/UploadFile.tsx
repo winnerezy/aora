@@ -8,7 +8,8 @@ import { useCallback, useState } from "react";
 import Dropzone from "react-dropzone";
 import { BiCloud } from "react-icons/bi";
 import { FaFile } from "react-icons/fa6";
-import Toastify from "toastify-js"
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css"
 
 // import {PdfReader} from "pdfreader"
 
@@ -45,8 +46,8 @@ const UploadDropzone = () => {
     retryDelay: 500,
   });
 
-  if(error){
-    console.log(error)
+  if (error) {
+    console.log(error.message);
   }
 
   return (
@@ -59,14 +60,8 @@ const UploadDropzone = () => {
         if (!res) {
           return Toastify({
             text: "Upload failed please try again",
+
             duration: 3000,
-            newWindow: true,
-            close: true,
-            gravity: "top",
-            position: "left", 
-            style: {
-              background: "linear-gradient(to right, #00b09b, #96c93d)",
-            },
           }).showToast();
         }
 
@@ -81,7 +76,7 @@ const UploadDropzone = () => {
             newWindow: true,
             close: true,
             gravity: "top",
-            position: "left", 
+            position: "left",
             style: {
               background: "linear-gradient(to right, #00b09b, #96c93d)",
             },
@@ -91,7 +86,7 @@ const UploadDropzone = () => {
         setIsUploading(true);
         clearInterval(progressInterval);
         setUploadProgress(100);
-        startPolling(key)
+        startPolling(key);
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
@@ -134,7 +129,13 @@ const UploadDropzone = () => {
                   </progress>
                 </div>
               ) : null}
-              <input type="file" id="dropzone-file" {...getInputProps()} hidden accept=".pdf"/>
+              <input
+                type="file"
+                id="dropzone-file"
+                {...getInputProps()}
+                hidden
+                accept=".pdf"
+              />
             </label>
           </div>
         </div>
