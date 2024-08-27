@@ -1,25 +1,43 @@
 "use client";
 
-import { Document, Page } from "react-pdf";
-import { useResizeDetector } from "react-resize-detector";
-import { BiChevronDown, BiChevronUp } from "react-icons/bi";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ScrollMode, Viewer } from "@react-pdf-viewer/core";
+import {
+  HorizontalScrollingIcon,
+  scrollModePlugin,
+  VerticalScrollingIcon,
+  WrappedScrollingIcon,
+} from "@react-pdf-viewer/scroll-mode";
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import { toolbarPlugin, ToolbarSlot } from "@react-pdf-viewer/toolbar";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import cn from "classnames";
-import { pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { ScrollMode, Worker } from "@react-pdf-viewer/core";
-import { Viewer } from "@react-pdf-viewer/core";
+import { useResizeDetector } from "react-resize-detector";
+import { z } from "zod";
+import { pageNavigationPlugin } from "@react-pdf-viewer/page-navigation";
 import "@react-pdf-viewer/core/lib/styles/index.css";
-
+import "@react-pdf-viewer/page-navigation/lib/styles/index.css";
 interface PdfRenderProps {
   url: string;
 }
 
 const PdfRenderer = ({ url }: PdfRenderProps) => {
+  const toolbarPluginInstance = toolbarPlugin();
+  const { Toolbar } = toolbarPluginInstance;
+
+  const pageNavigationPluginInstance = pageNavigationPlugin();
+  const {
+    CurrentPageInput,
+    GoToFirstPageButton,
+    GoToLastPageButton,
+    GoToNextPageButton,
+    GoToPreviousPage,
+  } = pageNavigationPluginInstance;
+
+  const scrollModePluginInstance = scrollModePlugin();
+
   const { width, ref } = useResizeDetector();
 
   const pageValidator = z.object({
@@ -51,55 +69,92 @@ const PdfRenderer = ({ url }: PdfRenderProps) => {
   };
 
   return (
-    <div className="w-full h-screen bg-gray-600 rounded-md shadow flex flex-col items-center">
-      <div className="h-14 p-2 w-full border-zinc-600 flex items-start justify-between border-b">
-        <div className="flex items-center gap-2">
-          <button
-            aria-label="previous page"
-            className="btn w-20"
-            onClick={() => {
-              setCurrentPage((prev) => (prev - 1 > 1 ? prev - 1 : 1));
-            }}
-          >
-            <BiChevronDown />
-          </button>
-          <div className="flex items-center gap-1.5">
-            <input
-              {...register("page")}
-              value={currentPage}
-              className={cn(
-                "items-center p-2 input w-12 h-8 bg-white text-black",
-                errors.page && "border border-red-500"
-              )}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSubmit(handlePageSubmit)();
-                }
-              }}
-            />
-            <p className="text-zinc-200 text-sm spac-x-1">
-              <span>/</span>
-              <span>{numPages ?? "x"}</span>
-            </p>
-          </div>
-          <button
-            disabled={numPages === undefined || currentPage === numPages}
-            aria-label="next page"
-            className="btn w-20"
-            onClick={() => {
-              setCurrentPage((prev) =>
-                prev + 1 > numPages! ? numPages! : prev + 1
-              );
-            }}
-          >
-            <BiChevronUp />
-          </button>
-        </div>
+    <div
+      className="rpv-core__viewer w-full mt-8"
+      style={{
+        border: "1px solid rgba(0, 0, 0, 0.3)",
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+      }}
+    >
+      <div
+        className="text-black w-full shrink"
+        style={{
+          alignItems: "center",
+          backgroundColor: "#eeeeee",
+          borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          padding: "4px",
+        }}
+      >
+        <Toolbar>
+          {(props: ToolbarSlot) => {
+            const {
+              CurrentPageInput,
+              Download,
+              EnterFullScreen,
+              GoToNextPage,
+              GoToPreviousPage,
+              NumberOfPages,
+              Print,
+              ShowSearchPopover,
+              Zoom,
+              ZoomIn,
+              ZoomOut,
+            } = props;
+            return (
+              <>
+                <div style={{ padding: "0px 2px" }}>
+                  <ShowSearchPopover />
+                </div>
+                <div style={{ padding: "0px 2px" }}>
+                  <ZoomOut />
+                </div>
+                <div style={{ padding: "0px 2px" }}>
+                  <Zoom />
+                </div>
+                <div style={{ padding: "0px 2px" }}>
+                  <ZoomIn />
+                </div>
+                <div style={{ padding: "0px 2px", marginLeft: "auto" }}>
+                  <GoToPreviousPage />
+                </div>
+                <div style={{ padding: "0px 2px", width: "4rem" }}>
+                  <CurrentPageInput />
+                </div>
+                <div style={{ padding: "0px 2px" }}>
+                  / <NumberOfPages />
+                </div>
+                <div style={{ padding: "0px 2px" }}>
+                  <GoToNextPage />
+                </div>
+                <div style={{ padding: "0px 2px", marginLeft: "auto" }}>
+                  <EnterFullScreen />
+                </div>
+                <div style={{ padding: "0px 2px" }}>
+                  <Download />
+                </div>
+                <div style={{ padding: "0px 2px" }}>
+                  <Print />
+                </div>
+              </>
+            );
+          }}
+        </Toolbar>
       </div>
-      <div className="flex-1 w-full overflow-y-auto" ref={ref}>
-        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-          <Viewer fileUrl={url} scrollMode={ScrollMode.Page} />;
-        </Worker>
+
+      <div
+        style={{
+          border: "1px solid rgba(0, 0, 0, 0.3)",
+        }}
+        className="h-[1000px] w-full sm:50vh"
+      >
+        <Viewer
+          fileUrl={url}
+          scrollMode={ScrollMode.Page}
+          plugins={[toolbarPluginInstance]}
+        />
       </div>
     </div>
   );

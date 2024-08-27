@@ -31,10 +31,10 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <section className="flex-1 flex justify-between flex-col h-[calc(100vh - 3.5rem)]">
+    <section className="flex-1 flex justify-between flex-col h-[calc(100%-3.5rem)] max-lg:overflow-y-scroll">
       <div className="w-full lg:flex xl:px-2">
         <div className="flex-1 xl:flex">
-          <div className="px-4 pt-6 sm:px-6 lg:px-8 xl:flex-1">
+          <div className="pl-2 pr-4 pt-6 sm:px-6 lg:pr-12 xl:flex-1 w-full">
             <PdfRenderer url={file.url} />
           </div>
         </div>

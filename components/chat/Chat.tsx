@@ -54,8 +54,8 @@ if(error){
 }
   return (
    <ChatContextProvider fileId={fileId} fileUrl={fileUrl}>
-     <div className="relative min-h-full divide-y divide-zinc-200 flex flex-col justify-between gap-2">
-      <div className="flex-1 justify-between flex flex-col mb-28">
+     <div className="relative w-full min-h-full divide-y divide-zinc-200 flex flex-col justify-between gap-2 overflow-hidden">
+      <div className="flex-1 justify-between flex flex-col mb-20">
         <Messages fileId={fileId} />
       </div>
       <ChatInput isDisabled={isLoading} fileUrl={fileUrl} fileId={fileId}/>
