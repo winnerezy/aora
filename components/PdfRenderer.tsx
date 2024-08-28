@@ -104,41 +104,25 @@ const PdfRenderer = ({ url }: PdfRenderProps) => {
               ZoomOut,
             } = props;
             return (
-              <>
-                <div style={{ padding: "0px 2px" }}>
-                  <ShowSearchPopover />
-                </div>
-                <div style={{ padding: "0px 2px" }}>
+             <div className="w-full flex items-center gap-2 sm:justify-evenly h-12">
+                  <div className="flex items-center sm:gap-2">
+                <ShowSearchPopover />
                   <ZoomOut />
-                </div>
-                <div style={{ padding: "0px 2px" }}>
                   <Zoom />
-                </div>
-                <div style={{ padding: "0px 2px" }}>
                   <ZoomIn />
                 </div>
-                <div style={{ padding: "0px 2px", marginLeft: "auto" }}>
+               <div className="flex items-center sm:gap-2">
                   <GoToPreviousPage />
-                </div>
-                <div style={{ padding: "0px 2px", width: "4rem" }}>
-                  <CurrentPageInput />
-                </div>
-                <div style={{ padding: "0px 2px" }}>
-                  / <NumberOfPages />
-                </div>
-                <div style={{ padding: "0px 2px" }}>
-                  <GoToNextPage />
-                </div>
-                <div style={{ padding: "0px 2px", marginLeft: "auto" }}>
+              <GoToNextPage />
+               <CurrentPageInput />
+               / <NumberOfPages />
+               </div>
+               {/* <div className="flex items-center gap-2">
                   <EnterFullScreen />
-                </div>
-                <div style={{ padding: "0px 2px" }}>
                   <Download />
-                </div>
-                <div style={{ padding: "0px 2px" }}>
                   <Print />
-                </div>
-              </>
+              </div> */}
+             </div>
             );
           }}
         </Toolbar>
@@ -148,7 +132,7 @@ const PdfRenderer = ({ url }: PdfRenderProps) => {
         style={{
           border: "1px solid rgba(0, 0, 0, 0.3)",
         }}
-        className="h-[1000px] w-full sm:50vh"
+        className="h-screen flex flex-col w-full sm:50vh"
       >
         <Viewer
           fileUrl={url}

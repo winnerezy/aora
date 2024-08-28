@@ -58,7 +58,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </Link>
-                <div className="px-6 mt-4 pt-2 grid grid-cols-3 place-items-center gap-6 text-xs text-zinc-300">
+                <div className="px-4 mt-4 pt-2 grid grid-cols-3 place-items-center gap-6 text-xs text-zinc-300">
                   <div className="flex items-center gap-2">
                     <BiCalendar className="size-6" />
                     <span>{format(file.createdAt, "MMM yyyy")}</span>

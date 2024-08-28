@@ -1,17 +1,16 @@
 "use client";
 
+import { createMessage } from "@/lib/utils/actions";
+import { useQuery } from "@tanstack/react-query";
 import { useChat } from "ai/react";
 import Link from "next/link";
-import { BiChevronLeft, BiSend, BiXCircle } from "react-icons/bi";
-import TextArea from "react-textarea-autosize";
-import { ChatContextProvider } from "./ChatContext";
-import Messages from "./Messages";
-import { pdfjs } from "react-pdf";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { BiChevronLeft, BiSend, BiXCircle } from "react-icons/bi";
+import { pdfjs } from "react-pdf";
+import TextArea from "react-textarea-autosize";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
-import { createMessage } from "@/lib/utils/actions";
+import Messages from "./Messages";
 
 interface ChatProps {
   fileId: string;
@@ -113,12 +112,12 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
     );
   }
   return (
-    <ChatContextProvider fileId={fileId} fileUrl={fileUrl}>
-      <div className="relative w-full min-h-full divide-y divide-zinc-200 flex flex-col justify-between gap-2 overflow-hidden">
-        <div className="flex-1 justify-between flex flex-col mb-12">
+   
+      <div className="relative min-h-full w-full divide-y divide-zinc-200 flex flex-col justify-between gap-2 overflow-hidden">
+        <div className="flex-1 justify-between flex flex-col">
           <Messages fileId={fileId} messages={messages} isLoading={isLoading} />
         </div>
-        <div className="absolute bottom-8 left-0 w-full">
+        <div className="absolute bottom-4 left-0 w-full">
           <TextArea
             className="textarea flex-shrink-0 w-full resize-none py-3 pr-12 text-base"
             value={input}
@@ -138,7 +137,7 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
           </button>
         </div>
       </div>
-    </ChatContextProvider>
+
   );
 };
 

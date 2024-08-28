@@ -24,14 +24,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <script src="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js" type="module"/>
-        <div className="flex flex-col min-h-screen md:h-screen">
+        <div className="flex flex-col h-screen md:h-screen">
           <header className="flex items-center justify-between bg-[#1a1a24] px-4 py-2">
             <Link href="/dashboard">
               <span className="text-2xl font-bold tracking-wide">Aora</span>
             </Link>
             <div></div>
           </header>
-          <main className="flex h-full overflow-hidden bg-neutral">
+          <main className="flex h-screen overflow-hidden bg-neutral">
             {children}
           </main>
         </div>

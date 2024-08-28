@@ -3,7 +3,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useRef } from "react";
 import { BiMessage } from "react-icons/bi";
 import { useInView } from "react-intersection-observer";
-import { ChatContext } from "./ChatContext";
 import Message from "./Message";
 import { Message as MessageProps, useChat } from "ai/react";
 
@@ -81,7 +80,7 @@ const Messages = ({
 
 
   return (
-    <div className="relative max-h-[calc(100vh-3.5rem-7rem)] flex flex-col flex-1 gap-4 p-4 overflow-y-auto">
+    <div className="max-h-[calc(100vh-3.5rem-7rem)] flex flex-col flex-1 gap-4 p-4 overflow-y-auto">
       <span style={{ visibility: "hidden" }}></span>
       {combinedMessages && combinedMessages.length > 0 ? (
         combinedMessages.map((message: MessageProps) => (
