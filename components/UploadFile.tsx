@@ -48,9 +48,7 @@ const UploadDropzone = () => {
 
   if (error) {
     console.log(error.message);
-    if (error) {
-      console.log(error.message);
-    }
+  }
 
     return (
       <Dropzone
@@ -82,7 +80,6 @@ const UploadDropzone = () => {
           setIsUploading(true);
           clearInterval(progressInterval);
           setUploadProgress(100);
-          startPolling(key);
           startPolling(key);
         }}
       >
@@ -133,13 +130,6 @@ const UploadDropzone = () => {
                   hidden
                   accept=".pdf"
                 />
-                <input
-                  type="file"
-                  id="dropzone-file"
-                  {...getInputProps()}
-                  hidden
-                  accept=".pdf"
-                />
               </label>
             </div>
           </div>
@@ -147,7 +137,6 @@ const UploadDropzone = () => {
       </Dropzone>
     );
   }
-};
 
 export const UploadFile = () => {
   const [pdf, setPdf] = useState<string>("");
