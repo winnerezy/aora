@@ -87,7 +87,8 @@ const UploadDropzone = () => {
           <div
             {...getRootProps()}
             className="m-4 border w-[93%] h-64 border-dashed border-gray-500 rounded-lg"
-          >
+            onClick={() => document.getElementById("dropzone-file")?.click()}
+        >
             <div className="w-full h-full flex items-center justify-center">
               <label
                 htmlFor="dropzone-file"
@@ -97,10 +98,10 @@ const UploadDropzone = () => {
                   <BiCloud className="mb-2 size-10" />
                   <p className="text-sm text-zinc-300 ">
                     <span>Click to upload</span>
-                    {""}
+                    {" "}
                     <span>or drag n drop</span>
-                    <span>Upload up to 16MB</span>
                   </p>
+                    <span>Upload up to 16MB</span>
                 </div>
                 {acceptedFiles && acceptedFiles[0] ? (
                   <div className="max-w-xs bg-zinc-500 flex rounded-md overflow-hidden outline-zinc-200 divide-x divide-zinc-200">
