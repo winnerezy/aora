@@ -101,7 +101,7 @@ const UploadDropzone = () => {
                     {" "}
                     <span>or drag n drop</span>
                   </p>
-                    <span>Upload up to 16MB</span>
+                    <span>Upload up to 32MB</span>
                 </div>
                 {acceptedFiles && acceptedFiles[0] ? (
                   <div className="max-w-xs bg-zinc-500 flex rounded-md overflow-hidden outline-zinc-200 divide-x divide-zinc-200">

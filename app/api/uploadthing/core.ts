@@ -5,7 +5,7 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 const f = createUploadthing();
 
 export const ourFileRouter = {
-  pdfUploader: f({ pdf: { maxFileSize: "16MB" } })
+  pdfUploader: f({ pdf: { maxFileSize: "32MB" } })
     .middleware(async () => {
       const user = await getCurrentUser()
     
