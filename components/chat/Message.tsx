@@ -6,7 +6,7 @@ const Message = ({ message }: { message: MessageProps}) => {
   return (
     <div
       className={cn(
-        "w-max max-w-[60%] max-h-full p-2 rounded-md bg-zinc-600",
+        "bg-card w-max max-w-[60%] max-h-full p-2 rounded-md",
         message.role === "user" ? "self-end" : "self-start"
       )}
     >

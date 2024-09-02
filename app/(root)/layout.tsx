@@ -11,7 +11,7 @@ export default function RootLayout({
   return (
     <QueryClientProvider client={queryClient}>
 
-    <div className="flex w-full h-full px-4">{children}</div>;
+    <div className="flex w-full h-full">{children}</div>;
     </QueryClientProvider>
   )
 }

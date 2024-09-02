@@ -10,7 +10,7 @@ import { BiCloud } from "react-icons/bi";
 import { FaFile } from "react-icons/fa6";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
-
+import cn from "classnames"
 // import {PdfReader} from "pdfreader"
 
 const UploadDropzone = () => {
@@ -86,17 +86,17 @@ const UploadDropzone = () => {
         {({ getRootProps, getInputProps, acceptedFiles }) => (
           <div
             {...getRootProps()}
-            className="m-4 border w-[93%] h-64 border-dashed border-gray-500 rounded-lg"
+            className="m-4 w-[93%] h-64 border-dashed border rounded-lg"
             onClick={() => document.getElementById("dropzone-file")?.click()}
         >
             <div className="w-full h-full flex items-center justify-center">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-full cursor-pointer bg-zinc-600 hover:bg-zinc-700"
+                className="flex flex-col items-center justify-center w-full h-full cursor-pointer"
               >
                 <div className="flex flex-col items-center justify-center pt-4 pb-4 text-center">
                   <BiCloud className="mb-2 size-10" />
-                  <p className="text-sm text-zinc-300 ">
+                  <p className="text-sm">
                     <span>Click to upload</span>
                     {" "}
                     <span>or drag n drop</span>
@@ -116,7 +116,7 @@ const UploadDropzone = () => {
                 {isUploading ? (
                   <div className="w-full mt-4 mx-auto max-w-xs px-4">
                     <progress
-                      className="progress max-w-xs"
+                      className={cn("progress max-w-xs", uploadProgress === 100 ? "text-green-400" : "text-foreground")}
                       value={uploadProgress}
                       max={100}
                     >
@@ -158,7 +158,7 @@ export const UploadFile = () => {
 
   return (
     <dialog id="my_modal_2" className="modal">
-      <div className="modal-box h-[400px] flex flex-col items-center justify-center gap-4">
+      <div className="modal-box h-[400px] bg-background flex flex-col items-center justify-center gap-4">
         <h3 className="text-xl font-bold">Select a PDF</h3>
         <UploadDropzone />
       </div>
