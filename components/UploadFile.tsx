@@ -104,7 +104,7 @@ const UploadDropzone = () => {
                     <span>Upload up to 32MB</span>
                 </div>
                 {acceptedFiles && acceptedFiles[0] ? (
-                  <div className="max-w-xs bg-zinc-500 flex rounded-md overflow-hidden outline-zinc-200 divide-x divide-zinc-200">
+                  <div className="max-w-xs bg-zinc-300 flex rounded-md overflow-hidden outline-zinc-200 divide-x divide-zinc-200">
                     <div className="px-4 py-2 h-full grid place-content-center">
                       <FaFile className="h-6" />
                     </div>
