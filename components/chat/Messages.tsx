@@ -2,7 +2,6 @@ import { getFileMessages } from "@/lib/utils/actions";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useRef } from "react";
 import { BiMessage } from "react-icons/bi";
-import { useInView } from "react-intersection-observer";
 import Message from "./Message";
 import { Message as MessageProps, useChat } from "ai/react";
 
@@ -63,9 +62,9 @@ const Messages = ({
   ];
   // const { ref, inView } = useInView();
 
-  // const bottomRef = useRef<HTMLDivElement | null>(null);
+  // const bottomRef = useRef<HTMLSpanElement | null>(null);
 
-  // get older chats when scrolling up
+ // get older chats when scrolling up
   // useEffect(() => {
   //   if (hasNextPage && inView) {
   //     fetchNextPage();
@@ -76,7 +75,7 @@ const Messages = ({
   //   if (bottomRef.current) {
   //     bottomRef.current.scrollIntoView({ behavior: "smooth" });
   //   }
-  // }, []);
+  // }, [combinedMessages]);
 
 
   return (
@@ -84,7 +83,10 @@ const Messages = ({
       <span style={{ visibility: "hidden" }}></span>
       {combinedMessages && combinedMessages.length > 0 ? (
         combinedMessages.map((message: MessageProps) => (
+          
           <Message key={message.id} message={message} />
+        
+         
         ))
       ) : (
         <div className="flex-1 flex flex-col items-center justify-center gap-2">
@@ -95,6 +97,7 @@ const Messages = ({
           </p>
         </div>
       )}
+       {/* <span ref={bottomRef}/> */}
     </div>
   );
 };

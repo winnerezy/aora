@@ -4,7 +4,7 @@ import { BiStar } from "react-icons/bi";
 export default function Page() {
 
   return (
-    <section className="relative flex flex-col items-center justify-center text-center gap-6 self-center w-full h-full">
+    <section className=" flex flex-col items-center justify-center text-center gap-6 self-center w-full h-full">
       <section className="flex flex-col md:flex-row">
         <div className="flex flex-col gap-8 items-center justify-center text-center flex-1">
           <h1 className="text-[120px] md:text-[160px] font-bold bg-gradient-to-tl from-secondary via-neutral-content to-primary text-transparent bg-clip-text">
@@ -17,14 +17,7 @@ export default function Page() {
             Aora is an innovative tool designed to enhance your experience with PDF
             documents. This AI-powered companion not only allows you to read
             PDFs seamlessly but also facilitates intelligent discussions and
-            deep exploration of the content. With advanced natural language
-            processing capabilities, it can summarize documents, answer
-            questions, and provide insights, making it easier to understand
-            complex information. Whether you're a student, professional, or
-            researcher, this tool transforms your interaction with PDF files,
-            making reading and learning more efficient and engaging. Dive into
-            your PDFs like never before—read, discuss, and discover with the
-            power of AI.
+            deep exploration of the content.
           </h3>
           <Link
             href="/dashboard"
@@ -53,9 +46,7 @@ export default function Page() {
           />
         </div> */}
 
-        <div className="flex flex-1 flex-shrink-0 items-center justify-center">
-          <BiStar className="text-white size-[300px]" />
-        </div>
+  
       </section>
       {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center mt-8 gap-8">
         <div className="card card-compact bg-base-100 w-96 shadow-xl">
@@ -101,7 +92,7 @@ export default function Page() {
           </div>
         </div>
       </div> */}
-      <div className="absolute bottom-4 flex gap-2 left-[50%] -translate-x-[50%]">
+      <div className="absolute bottom-4 flex gap-2 self-center">
         <Link href="/">Terms of Service</Link>
         <span>|</span>
         <Link href="/">Private Policy</Link>

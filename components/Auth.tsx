@@ -17,7 +17,7 @@ const Auth = () => {
             <span className="font-medium">Sign In WIth Google</span>
         </button>    
         <button onClick={() => handleSignIn("github")} className="bg-button hover:bg-button/90 w-[80%] h-12 rounded-md p-2 flex gap-2 items-center justify-center">
-            <FaGithub className="size-8 text-black"/>
+            <FaGithub className="size-8 text-foreground"/>
             <span className="font-medium">Sign In WIth Github</span>
         </button> 
     </div>
