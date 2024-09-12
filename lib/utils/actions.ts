@@ -1,12 +1,16 @@
 "use server";
 
-import { auth, signIn } from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 import { UploadedFileData } from "uploadthing/types";
 import { prisma } from "./prisma";
 import { Role } from "@prisma/client";
 
 export const signin = async (provider: string) => {
   await signIn(provider)
+}
+
+export const signout = async () => {
+  await signOut()
 }
 
 interface FIleProps extends UploadedFileData {

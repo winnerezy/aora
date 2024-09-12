@@ -4,6 +4,8 @@ import "./globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import Link from "next/link";
+import UserAccount from "@/components/UserAccount";
+import { getCurrentUser } from "@/lib/utils/actions";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -15,11 +17,12 @@ export const metadata: Metadata = {
   description: "PDF Chat Bot",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+const user = await  getCurrentUser()
   return (
     <html lang="en" className="dark">
       <body className={poppins.className}>
@@ -29,7 +32,9 @@ export default function RootLayout({
             <Link href="/dashboard">
               <span className="text-2xl font-bold tracking-wide">Aora</span>
             </Link>
-            <div></div>
+         {
+          user &&  <UserAccount user={user}/>
+         }
           </header>
           <main className="flex h-full overflow-hidden">
             {children}

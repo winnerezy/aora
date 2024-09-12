@@ -10,8 +10,7 @@ import { BiCloud } from "react-icons/bi";
 import { FaFile } from "react-icons/fa6";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
-import cn from "classnames"
-// import {PdfReader} from "pdfreader"
+import cn from "classnames";
 
 const UploadDropzone = () => {
   const router = useRouter();
@@ -50,94 +49,99 @@ const UploadDropzone = () => {
     console.log(error.message);
   }
 
-    return (
-      <Dropzone
-        multiple={false}
-        onDrop={async (acceptedFile) => {
-          const progressInterval = startProgress();
-          const res = await startUpload(acceptedFile);
+  return (
+    <Dropzone
+      multiple={false}
+      onDrop={async (acceptedFile) => {
+        const progressInterval = startProgress();
+        const res = await startUpload(acceptedFile);
 
-          if (!res) {
-            return Toastify({
-              text: "Upload failed please try again",
+        if (!res) {
+          return Toastify({
+            text: "Upload failed please try again",
 
-              duration: 3000,
-            }).showToast();
-          }
+            duration: 3000,
+          }).showToast();
+        }
 
-          const [fileResponse] = res!;
+        const [fileResponse] = res!;
 
-          const key = fileResponse?.key;
+        const key = fileResponse?.key;
 
-          if (!key) {
-            return Toastify({
-              text: "Upload failed please try again",
+        if (!key) {
+          return Toastify({
+            text: "Upload failed please try again",
 
-              duration: 3000,
-            }).showToast();
-          }
+            duration: 3000,
+          }).showToast();
+        }
 
-          setIsUploading(true);
-          clearInterval(progressInterval);
-          setUploadProgress(100);
-          startPolling(key);
-        }}
-      >
-        {({ getRootProps, getInputProps, acceptedFiles }) => (
-          <div
-            {...getRootProps()}
-            className="m-4 w-[93%] h-64 border-dashed border rounded-lg"
-            onClick={() => document.getElementById("dropzone-file")?.click()}
+        setIsUploading(true);
+        clearInterval(progressInterval);
+        setUploadProgress(100);
+        startPolling(key);
+      }}
+    >
+      {({ getRootProps, getInputProps, acceptedFiles }) => (
+        <div
+          {...getRootProps()}
+          className="m-4 w-[93%] h-64 border-dashed border rounded-lg"
+          onClick={() => document.getElementById("dropzone-file")?.click()}
         >
-            <div className="w-full h-full flex items-center justify-center">
-              <label
-                htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-full cursor-pointer"
-              >
-                <div className="flex flex-col items-center justify-center pt-4 pb-4 text-center">
-                  <BiCloud className="mb-2 size-10" />
-                  <p className="text-sm">
-                    <span>Click to upload</span>
-                    {" "}
-                    <span>or drag n drop</span>
+          <div className="w-full h-full flex items-center justify-center">
+            <label
+              htmlFor="dropzone-file"
+              className="flex flex-col items-center justify-center w-full h-full cursor-pointer"
+            >
+              <div className="flex flex-col items-center justify-center pt-4 pb-4 text-center">
+                <BiCloud className="mb-2 size-10" />
+                <p className="text-sm">
+                  <span>Click to upload</span>
+
+                  <span>or drag n drop</span>
+                </p>
+                <span>Upload up to 64MB</span>
+              </div>
+              {acceptedFiles && acceptedFiles[0] ? (
+                <div className="max-w-xs bg-zinc-300 dark:bg-zinc-600 flex rounded-md overflow-hidden outline-zinc-200 divide-x divide-zinc-200">
+                  <div className="px-4 py-2 h-full grid place-content-center">
+                    <FaFile className="h-6" />
+                  </div>
+                  <p className="px-3 py-2 h-full text-sm truncate">
+                    {acceptedFiles[0].name}
                   </p>
-                    <span>Upload up to 32MB</span>
                 </div>
-                {acceptedFiles && acceptedFiles[0] ? (
-                  <div className="max-w-xs bg-zinc-300 dark:bg-zinc-600 flex rounded-md overflow-hidden outline-zinc-200 divide-x divide-zinc-200">
-                    <div className="px-4 py-2 h-full grid place-content-center">
-                      <FaFile className="h-6" />
-                    </div>
-                    <p className="px-3 py-2 h-full text-sm truncate">
-                      {acceptedFiles[0].name}
-                    </p>
-                  </div>
-                ) : null}
-                {isUploading ? (
-                  <div className="w-full mt-4 mx-auto max-w-xs px-4">
-                    <progress
-                      className={cn("progress max-w-xs", uploadProgress === 100 ? "text-green-400" : "text-foreground")}
-                      value={uploadProgress}
-                      max={100}
-                    >
-                      {" "}
-                    </progress>
-                  </div>
-                ) : null}
-                <input
-                  type="file"
-                  id="dropzone-file"
-                  {...getInputProps()}
-                  hidden
-                  accept=".pdf"
-                />
-              </label>
-            </div>
+              ) : null}
+              {isUploading ? (
+                <div className="w-full mt-4 mx-auto max-w-xs px-4">
+                  <progress
+                    className={cn(
+                      "progress max-w-xs",
+                      uploadProgress === 100
+                        ? "text-green-400"
+                        : "text-foreground"
+                    )}
+                    value={uploadProgress}
+                    max={100}
+                  >
+                    {" "}
+                  </progress>
+                </div>
+              ) : null}
+              <input
+                type="file"
+                id="dropzone-file"
+                {...getInputProps()}
+                hidden
+                accept=".pdf"
+              />
+            </label>
           </div>
-        )}
-      </Dropzone>
-    );
-  }
+        </div>
+      )}
+    </Dropzone>
+  );
+};
 
 export const UploadFile = () => {
   const [pdf, setPdf] = useState<string>("");
