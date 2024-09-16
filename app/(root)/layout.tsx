@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
@@ -10,8 +10,7 @@ export default function RootLayout({
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-
-    <div className="flex w-full h-full">{children}</div>;
+      <div className="flex w-full h-full">{children}</div>;
     </QueryClientProvider>
-  )
+  );
 }

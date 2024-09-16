@@ -2,20 +2,38 @@ import { prisma } from "@/lib/utils/prisma";
 import { createOpenAI as createGroq } from "@ai-sdk/openai";
 import { streamText } from "ai";
 import { NextRequest, NextResponse } from "next/server";
+import { PineconeStore } from '@langchain/pinecone'
+import { Pinecone } from "@pinecone-database/pinecone"
+import { OllamaEmbeddings } from "@langchain/ollama"
+import { ChatGroq } from "@langchain/groq";
+
 
 export const POST = async (req: NextRequest) => {
+
+
   try {
-    const groq = createGroq({
-      baseURL: "https://api.groq.com/openai/v1",
-      apiKey: process.env.GROQ_API_KEY,
-    });
+
     const {
       messages,
-      model = "llama-3.1-70b-versatile",
+      model = "llama-3.1-8b-instant",
       temperature = 0.5,
       fileId,
       pdfText,
     } = await req.json();
+
+    const pdfTextChunks = [];
+const chunkSize = 1000; // adjust this value based on your needs
+
+for (let i = 0; i < pdfText.length; i += chunkSize) {
+  const chunk = pdfText.slice(i, i + chunkSize);
+  pdfTextChunks.push(chunk);
+}
+
+    const groq = createGroq({
+      baseURL: "https://api.groq.com/openai/v1",
+      apiKey: process.env.GROQ_API_KEY,
+    });
+
 
     const prevMessages = await prisma.message.findMany({
       where: {
@@ -41,6 +59,7 @@ export const POST = async (req: NextRequest) => {
     });
     return response.toAIStreamResponse();
   } catch (error: any) {
+    console.log(error.message)
     return NextResponse.json(JSON.stringify({ message: error.message }), {
       status: 500,
     });
