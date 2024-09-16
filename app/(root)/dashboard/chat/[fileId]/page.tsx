@@ -35,7 +35,7 @@ export default async function Page({ params }: PageProps) {
           <PdfRenderer url={file.url} />
         </div>
 
-        <div className="flex-[0.75] lg:w-96 lg:border-l h-full px-2">
+        <div className="flex-[0.75] lg:w-96 lg:border-l h-screen px-2">
           <Chat fileId={file.id} fileUrl={file.url} />
         </div>
       </div>

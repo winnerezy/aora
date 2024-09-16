@@ -21,14 +21,6 @@ export const POST = async (req: NextRequest) => {
       pdfText,
     } = await req.json();
 
-    const pdfTextChunks = [];
-const chunkSize = 1000; // adjust this value based on your needs
-
-for (let i = 0; i < pdfText.length; i += chunkSize) {
-  const chunk = pdfText.slice(i, i + chunkSize);
-  pdfTextChunks.push(chunk);
-}
-
     const groq = createGroq({
       baseURL: "https://api.groq.com/openai/v1",
       apiKey: process.env.GROQ_API_KEY,
@@ -38,7 +30,8 @@ for (let i = 0; i < pdfText.length; i += chunkSize) {
     const prevMessages = await prisma.message.findMany({
       where: {
         fileId
-      }
+      },
+      take: 5
     })
 
     const response = await streamText({
@@ -56,6 +49,7 @@ for (let i = 0; i < pdfText.length; i += chunkSize) {
         ...messages
       ],
       temperature,
+      maxTokens: 512
     });
     return response.toAIStreamResponse();
   } catch (error: any) {

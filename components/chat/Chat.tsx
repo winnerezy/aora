@@ -59,26 +59,32 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
       });
   }
 
-  const { messages, input, setInput, handleSubmit, handleInputChange, isLoading } =
-    useChat({
-      body: {
-        fileId,
-        pdfText
-      },
-      onError: (error) => {
-        setInput(input)
-        return Toastify({
-          text: error.message,
-          duration: 3000,
-        }).showToast();
-      },
+  const {
+    messages,
+    input,
+    setInput,
+    handleSubmit,
+    handleInputChange,
+    isLoading,
+  } = useChat({
+    body: {
+      fileId,
+      pdfText,
+    },
+    onError: (error) => {
+      setInput(input);
+      return Toastify({
+        text: error.message,
+        duration: 3000,
+      }).showToast();
+    },
 
-      // when ai fully responds user input and ai reponse save in the database
-      onFinish: async (aiResponse) => {
-          await createMessage(input, "user", fileId)
-          await createMessage(aiResponse.content, "assistant", fileId)
-      },
-    });
+    // when ai fully responds user input and ai reponse save in the database
+    onFinish: async (aiResponse) => {
+      await createMessage(input, "user", fileId);
+      await createMessage(aiResponse.content, "assistant", fileId);
+    },
+  });
 
   if (pdfLoading) {
     return (
@@ -112,30 +118,28 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
     );
   }
   return (
-   
-      <div className="relative min-h-full w-full flex flex-col justify-between gap-2 overflow-hidden">
-   <Messages fileId={fileId} messages={messages} isLoading={isLoading} />
-        <div className="absolute bottom-4 w-full h-[50px] flex items-center">
-          <TextArea
-            className="flex-shrink-0 w-full resize-none text-base bg-white/70 dark:bg-black/70 h-[50px] textarea"
-            value={input}
-            onChange={handleInputChange}
-            autoFocus
-            rows={1}
-            maxRows={4}
-            placeholder="Enter your question"
-          />
-          <button
-            disabled={isLoading || input.length === 0}
-            type="button"
-            onClick={handleSubmit}
-            className="absolute bg-transparent text-foreground right-[20px]"
-          >
-            <BiSend className="size-6" />
-          </button>
-        </div>
+    <div className="relative min-h-full w-full flex flex-col justify-between gap-2 overflow-hidden">
+      <Messages fileId={fileId} messages={messages} isLoading={isLoading} />
+      <div className="absolute bottom-4 w-full h-[50px] flex items-center">
+        <TextArea
+          className="flex-shrink-0 w-full resize-none text-base bg-white/70 dark:bg-black/70 h-[50px] textarea"
+          value={input}
+          onChange={handleInputChange}
+          autoFocus
+          rows={1}
+          maxRows={4}
+          placeholder="Enter your question"
+        />
+        <button
+          disabled={isLoading || input.length === 0}
+          type="button"
+          onClick={handleSubmit}
+          className="absolute bg-transparent text-foreground right-[20px]"
+        >
+          <BiSend className="size-6" />
+        </button>
       </div>
-
+    </div>
   );
 };
 
