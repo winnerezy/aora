@@ -1,6 +1,5 @@
 // import { TypeAnimation } from "react-type-animation"
 import Link from "next/link";
-import { BiStar } from "react-icons/bi";
 export default function Page() {
 
   return (
