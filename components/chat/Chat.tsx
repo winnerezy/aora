@@ -118,7 +118,7 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
     );
   }
   return (
-    <div className="relative min-h-full w-full flex flex-col justify-between gap-2 overflow-hidden">
+    <div className="relative h-[100dvh] w-full flex flex-col justify-between gap-2 overflow-hidden">
       <Messages fileId={fileId} messages={messages} isLoading={isLoading} />
       <div className="absolute bottom-4 w-full h-[50px] flex items-center">
         <TextArea

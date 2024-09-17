@@ -32,7 +32,7 @@ export const POST = async (req: NextRequest) => {
     })
 
     const response = await streamText({
-      model: groq("llava-v1.5-7b-4096-preview"),
+      model: groq("llama-3.1-70b-versatile"),
       messages: [
         {
           role: "user",
