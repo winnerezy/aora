@@ -8,11 +8,14 @@ export const POST = async (req: NextRequest) => {
 
   try {
     
+    
     const {
       messages,
     
+    
       temperature = 0.5,
       fileId,
+      pdfText
       pdfText
     } = await req.json();
 
