@@ -16,7 +16,6 @@ export const POST = async (req: NextRequest) => {
       temperature = 0.5,
       fileId,
       pdfText
-      pdfText
     } = await req.json();
 
     const groq = createGroq({
