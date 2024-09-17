@@ -2,23 +2,18 @@ import { prisma } from "@/lib/utils/prisma";
 import { createOpenAI as createGroq } from "@ai-sdk/openai";
 import { streamText } from "ai";
 import { NextRequest, NextResponse } from "next/server";
-import { PineconeStore } from '@langchain/pinecone'
-import { Pinecone } from "@pinecone-database/pinecone"
-import { OllamaEmbeddings } from "@langchain/ollama"
-import { ChatGroq } from "@langchain/groq";
-
 
 export const POST = async (req: NextRequest) => {
 
 
   try {
-
+    
     const {
       messages,
-      model = "llama-3.1-8b-instant",
+    
       temperature = 0.5,
       fileId,
-      pdfText,
+      pdfText
     } = await req.json();
 
     const groq = createGroq({
@@ -35,7 +30,7 @@ export const POST = async (req: NextRequest) => {
     })
 
     const response = await streamText({
-      model: groq(model),
+      model: groq("llava-v1.5-7b-4096-preview"),
       messages: [
         {
           role: "user",

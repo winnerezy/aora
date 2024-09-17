@@ -22,7 +22,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-const user = await  getCurrentUser()
+const user = await getCurrentUser()
   return (
     <html lang="en" className="dark">
       <body className={poppins.className}>

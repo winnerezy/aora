@@ -1,12 +1,7 @@
-export default function RootLayout({
-    children,
+export default function AuthLayout({
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-
-
-        <div className="flex w-full min-h-screen px-4">{children}</div>
-
-    )
+  return <div className="flex w-full min-h-screen px-4">{children}</div>;
 }
