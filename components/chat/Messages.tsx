@@ -42,7 +42,7 @@ const Messages = ({
       <div className="relative min-h-full flex flex-col items-center justify-center gap-2 divide-y">
         <div className="flex-1 flex justify-center items-center flex-col mb-28">
           <div className="flex flex-col items-center gap-2">
-            <span className="loading loading-spinner loading-lg text-white" />
+            <span className="loading loading-spinner loading-lg text-black dark:text-white" />
             <h3 className="text-xl font-semibold">Almist done...</h3>
           </div>
         </div>
@@ -79,7 +79,7 @@ const Messages = ({
 
 
   return (
-    <div className="max-h-[calc(100vh-3.5rem-7rem)] flex flex-col flex-1 gap-4 p-4 overflow-y-auto">
+    <div className="sm:max-h-[calc(100dvh-12rem)] flex flex-col flex-1 gap-4 p-4 overflow-y-auto">
       <span style={{ visibility: "hidden" }}></span>
       {combinedMessages && combinedMessages.length > 0 ? (
         combinedMessages.map((message: MessageProps) => (

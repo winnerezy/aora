@@ -91,9 +91,9 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
       <div className="relative min-h-full flex flex-col justify-between gap-2 divide-y">
         <div className="flex-1 flex justify-center items-center flex-col mb-28">
           <div className="flex flex-col items-center gap-2">
-            <span className="loading loading-spinner loading-lg text-white" />
+            <span className="loading loading-spinner loading-lg text-black dark:text-white" />
             <h3 className="text-xl font-semibold">Loading</h3>
-            <p className="text-zinc-200 text-sn">Perparing Chats</p>
+            <p className="text-zinc-400 dark:text-zinc-200 text-sn">Perparing Chats</p>
           </div>
         </div>
       </div>
@@ -108,7 +108,7 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
           <div className="flex flex-col items-center gap-2">
             <BiXCircle className="text-red-500 size-[50px]" />
             <h3 className="text-xl font-semibold">Error Loading Chats</h3>
-            <p className="text-zinc-200 text-sn">Please try again later</p>
+            <p className="text-zinc-400 dark:text-zinc-200 text-sn">Please try again later</p>
             <Link href="/dashboard" className="flex items-center gap-1.5">
               <BiChevronLeft /> Back
             </Link>
@@ -118,9 +118,9 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
     );
   }
   return (
-    <div className="relative h-[100dvh] w-full flex flex-col justify-between gap-2 overflow-hidden">
+    <div className="relative w-full h-[calc(100%-100px)] flex flex-col justify-between gap-2 overflow-hidden">
       <Messages fileId={fileId} messages={messages} isLoading={isLoading} />
-      <div className="absolute bottom-4 w-full h-[50px] flex items-center">
+      <div className="absolute bottom-0 w-full h-[50px] flex items-center">
         <TextArea
           className="flex-shrink-0 w-full resize-none text-base bg-white/70 dark:bg-black/70 h-[50px] textarea"
           value={input}

@@ -30,12 +30,12 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <section className="flex-1 flex justify-between flex-col h-full max-lg:overflow-y-scroll">
-      <div className="w-full h-full lg:flex xl:px-2">
-        <div className="px-4 flex-1 w-full h-[100dvh]">
+      <div className="lg:flex xl:px-2">
+        <div className="px-4 flex-1 w-full">
           <PdfRenderer url={file.url} />
         </div>
 
-        <div className="flex-[0.75] lg:w-96 lg:border-l h-[100dvh] px-2">
+        <div className="flex-[0.75] lg:w-96 lg:border-l px-2 sm:h-screen">
           <Chat fileId={file.id} fileUrl={file.url} />
         </div>
       </div>

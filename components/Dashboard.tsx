@@ -44,7 +44,7 @@ const Dashboard = () => {
             .map((file) => (
               <li
                 key={file.id}
-                className="w-full h-[120px] rounded-md border bg-zinc-300 dark:bg-zinc-800 shadow hover:shadow-lg divide-y divide-gray-400 col-span-1"
+                className="w-full h-[120px] rounded-md bg-card shadow-sm hover:shadow-md divide-y divide-gray-400 col-span-1"
               >
                 <Link href={`dashboard/chat/${file.id}`}>
                   <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">

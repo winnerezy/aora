@@ -95,10 +95,10 @@ const UploadDropzone = () => {
             >
               <div className="flex flex-col items-center justify-center pt-4 pb-4 text-center">
                 <BiCloud className="mb-2 size-10" />
-                <p className="text-sm">
+                <p className="text-sm flex flex-col">
                   <span>Click to upload</span>
-
-                  <span>or drag n drop</span>
+                  <span>or</span>
+                  <span>drag n drop</span>
                 </p>
                 <span>Upload up to 64MB</span>
               </div>

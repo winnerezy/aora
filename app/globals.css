@@ -4,12 +4,12 @@
 
 @layer base {
   :root {
-    --background: 0 0% 90%;
+    --background: 0 0% 97%;
     --foreground: 9 9% 10%;
-    --border: 30 5% 60%;
+    --border: 30 5% 80%;
     --button: 10 0% 85.9%;
     --input: 10 5% 90%;
-    --card: 50 1% 80%;
+    --card: 0 90% 100%;
   }
   
   .dark {
@@ -37,4 +37,11 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  .gradient {
+    @apply bg-gradient-to-br from-purple-500 to-blue-300
+    
+  }
 }
+
+

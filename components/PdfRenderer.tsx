@@ -70,7 +70,7 @@ const PdfRenderer = ({ url }: PdfRenderProps) => {
 
   return (
     <div
-      className="rpv-core__viewer w-full mt-8"
+      className="rpv-core__viewer w-full"
       style={{
         border: "1px solid rgba(0, 0, 0, 0.3)",
         display: "flex",
@@ -104,25 +104,25 @@ const PdfRenderer = ({ url }: PdfRenderProps) => {
               ZoomOut,
             } = props;
             return (
-             <div className="w-full flex items-center gap-2 sm:justify-evenly h-12">
-                  <div className="flex items-center sm:gap-2">
-                <ShowSearchPopover />
+              <div className="w-full flex items-center gap-2 sm:justify-evenly h-12">
+                <div className="flex items-center sm:gap-2">
+                  <ShowSearchPopover />
                   <ZoomOut />
                   <Zoom />
                   <ZoomIn />
                 </div>
-               <div className="flex items-center sm:gap-2">
+                <div className="flex items-center sm:gap-2">
                   <GoToPreviousPage />
-              <GoToNextPage />
-               <CurrentPageInput />
-               / <NumberOfPages />
-               </div>
-               {/* <div className="flex items-center gap-2">
+                  <GoToNextPage />
+                  <CurrentPageInput />
+                  / <NumberOfPages />
+                </div>
+                <div className="flex items-center gap-2">
                   <EnterFullScreen />
                   <Download />
                   <Print />
-              </div> */}
-             </div>
+              </div>
+              </div>
             );
           }}
         </Toolbar>
