@@ -6,3 +6,9 @@ export type User = {
     lastName: string | null;
     photo: string;
 }
+
+type Message = {
+    id: string
+    role: string
+    part: string
+}

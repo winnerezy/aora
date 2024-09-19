@@ -155,5 +155,6 @@ export const createMessage = async (content: string, role: Role, fileId: string)
       fileId
     }
   })
+  console.log("done")
 }
 

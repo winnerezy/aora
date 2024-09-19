@@ -20,7 +20,7 @@ export default function Page() {
           </h3>
           <Link
             href="/dashboard"
-            className="btn w-36 bg-primary hover:bg-primary/80 text-white rounded-xl"
+            className="btn w-36 gradient text-white rounded-xl"
           >
             Get Started
           </Link>

@@ -1,4 +1,4 @@
-import { Message as MessageProps } from "ai/react";
+import { Message as MessageProps } from "@/types";
 import cn from "classnames";
 import { marked } from "marked";
 
@@ -10,10 +10,15 @@ const Message = ({ message }: { message: MessageProps}) => {
         message.role === "user" ? "self-end" : "self-start"
       )}
     >
-      <p
+     {
+      message.part ? (
+        <p
         className="font-medium text-xs md:text-md tracking-widest text-wrap"
-        dangerouslySetInnerHTML={{ __html: marked(message.content) }}
-      ></p>
+        dangerouslySetInnerHTML={{ __html: marked(message.part) }}
+      >
+      </p>
+      ) : <p>{message.part}</p>
+     }
     </div>
   );
 };
