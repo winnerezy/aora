@@ -11,13 +11,13 @@ const Message = ({ message }: { message: MessageProps}) => {
       )}
     >
      {
-      message.part ? (
+      message.content ? (
         <p
         className="font-medium text-xs md:text-md tracking-widest text-wrap"
-        dangerouslySetInnerHTML={{ __html: marked(message.part) }}
+        dangerouslySetInnerHTML={{ __html: marked(message.content) }}
       >
       </p>
-      ) : <p>{message.part}</p>
+      ) : <p>{message.content}</p>
      }
     </div>
   );

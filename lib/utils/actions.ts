@@ -147,14 +147,14 @@ export const getFileMessages = async (fileId: string, pageParam: string | undefi
   }
 }
 
-export const createMessage = async (content: string, role: Role, fileId: string) => {
+export const createMessage = async (id: string, content: string, role: Role, fileId: string) => {
   await prisma.message.create({
     data: {
+      id,
       content,
       role,
       fileId
     }
   })
-  console.log("done")
 }
 

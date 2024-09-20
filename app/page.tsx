@@ -20,7 +20,7 @@ export default function Page() {
           </h3>
           <Link
             href="/dashboard"
-            className="btn w-36 gradient text-white rounded-xl"
+            className="btn border-none w-36 gradient text-white rounded-xl"
           >
             Get Started
           </Link>

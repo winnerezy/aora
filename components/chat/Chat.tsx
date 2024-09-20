@@ -17,7 +17,7 @@ import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import Messages from "./Messages";
 import { Message } from "@/types";
-
+import { v4 as uuidv4 } from "uuid";
 interface ChatProps {
   fileId: string;
   fileUrl: string;
@@ -113,32 +113,31 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
     error,
     mutate: handleSend,
   } = useMutation({
-    mutationKey: ["chat"],
+    mutationKey: ["chatmutate"],
     mutationFn: async () => {
       const res = await fetch("/api/chat", {
         method: "POST",
-        body: JSON.stringify({ pdfText, message: input }),
+        body: JSON.stringify({ pdfText, message: input, fileId }),
       });
       const ans = await res.json();
-      return ans as Message;
+      return ans
     },
-    onMutate() {
-      setInput("");
-      async () => await createMessage(input, "user", fileId);
-      const prevChats: [] | undefined = queryClient.getQueryData(["chat"]);
+    async onMutate() {
+      const prevChats: Message[] | undefined = queryClient.getQueryData(["chat"]);
       queryClient.setQueryData(
         ["chat"],
-        [prevChats, { role: "user", part: input }]
+        (prevChats: Message[]) => [...(prevChats || []), { role: "user", content: input }]
       );
+      await createMessage(uuidv4(), input, "user", fileId);
     },
-    onSuccess(data) {
-      async () => await createMessage(data.part, "assistant", fileId);
+    async onSuccess(data) {
+     await createMessage(uuidv4(), data, "assistant", fileId);
     },
     onSettled(data) {
-      const prevChats: [] | undefined = queryClient.getQueryData(["chat"]);
+      const prevChats: Message[] | undefined = queryClient.getQueryData(["chat"]);
       queryClient.setQueryData(
         ["chat"],
-        [prevChats, { role: "assistant", part: data }]
+        (prevChats: Message[]) => [...(prevChats || []), { role: "assistant", content: data }]
       );
     },
   });

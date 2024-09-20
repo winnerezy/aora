@@ -32,7 +32,7 @@ const Messages = ({ fileId, isLoading, isPending }: MessagesProps) => {
   // AI loading  response
   const loadingMessages: MessageProps = {
     id: "loading-message",
-    part: "loading...",
+    content: "loading...",
     role: "assistant",
   };
 

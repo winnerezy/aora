@@ -10,5 +10,5 @@ export type User = {
 type Message = {
     id: string
     role: string
-    part: string
+    content: string
 }
