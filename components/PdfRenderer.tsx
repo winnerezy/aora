@@ -132,7 +132,7 @@ const PdfRenderer = ({ url }: PdfRenderProps) => {
         style={{
           border: "1px solid rgba(0, 0, 0, 0.3)",
         }}
-        className="h-screen flex flex-col w-full sm:50vh"
+        className="h-[calc(100dvh-120px)] flex flex-col w-full sm:50vh"
       >
         <Viewer
           fileUrl={url}

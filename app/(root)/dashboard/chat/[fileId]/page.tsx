@@ -29,13 +29,13 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <section className="flex-1 flex justify-between flex-col h-full max-lg:overflow-y-scroll">
-      <div className="lg:flex xl:px-2">
+    <section className="flex-1 flex justify-between flex-col h-full">
+      <div className="flex flex-col lg:flex-row xl:px-2">
         <div className="px-4 flex-1 w-full">
           <PdfRenderer url={file.url} />
         </div>
 
-        <div className="flex-[0.75] lg:w-96 lg:border-l px-2 sm:h-screen">
+        <div className="relative h-[calc(100dvh-56px)] flex-[0.75] lg:w-96 lg:border-l px-2">
           <Chat fileId={file.id} fileUrl={file.url} />
         </div>
       </div>

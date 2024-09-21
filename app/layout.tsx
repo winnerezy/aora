@@ -22,14 +22,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(montserrat.className, "h-[100dvh] sm:min-h-[100dvh] overflow-y-hidden")}>
+      <body className={cn(montserrat.className)}>
         <script
           src="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js"
           type="module"
         />
-        <Header />
+        <div className="min-h-screen">
+          <Header />
 
-        <main className="flex h-full overflow-hidden">{children}</main>
+          <main className="flex">{children}</main>
+        </div>
       </body>
     </html>
   );

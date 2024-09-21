@@ -8,7 +8,10 @@ export const GET = async (req: NextRequest, { params: { fileId } }: { params: { 
         where: {
           fileId
         },
-        take: 10
+        take: 10,
+        orderBy: {
+          createdAt: "asc"
+        }
       })
   
       return NextResponse.json(messages)

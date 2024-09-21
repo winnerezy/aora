@@ -8,6 +8,7 @@ import {
   ChangeEventHandler,
   MouseEvent,
   MouseEventHandler,
+  useRef,
   useState,
 } from "react";
 import { BiChevronLeft, BiSend, BiXCircle } from "react-icons/bi";
@@ -24,8 +25,11 @@ interface ChatProps {
 }
 
 const Chat = ({ fileId, fileUrl }: ChatProps) => {
+
   const [input, setInput] = useState("");
   const [pdfText, setPdfText] = useState<string>("");
+  
+  const inputRef = useRef<HTMLTextAreaElement | null>(null)
 
   const {
     data,
@@ -65,33 +69,6 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
         }
       });
   }
-
-  // const {
-  //   messages,
-  //   input,
-  //   setInput,
-  //   handleSubmit,
-  //   handleInputChange,
-  //   isLoading,
-  // } = useChat({
-  //   body: {
-  //     fileId,
-  //     pdfText,
-  //   },
-  //   onError: (error) => {
-  //     setInput(input);
-  //     return Toastify({
-  //       text: error.message,
-  //       duration: 3000,
-  //     }).showToast();
-  //   },
-
-  //   // when ai fully responds user input and ai reponse save in the database
-  //   onFinish: async (aiResponse) => {
-  //     await createMessage(input, "user", fileId);
-  //     await createMessage(aiResponse.content, "assistant", fileId);
-  //   },
-  // });
 
   const {
     data: messages,
@@ -146,6 +123,7 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
     setInput(e.target.value);
   };
 
+
   if (pdfLoading) {
     return (
       <div className="relative min-h-full flex flex-col justify-between gap-2 divide-y">
@@ -182,15 +160,16 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
     );
   }
   return (
-    <div className="relative w-full h-[calc(100%-100px)] flex flex-col justify-between gap-2 overflow-hidden">
+    <div className="w-full h-[calc(100%-100px)] flex flex-col justify-between gap-2">
       <Messages
         fileId={fileId}
         messages={messages}
         isLoading={isLoading}
         isPending={isPending}
       />
-      <div className="absolute bottom-0 w-full h-[50px] flex items-center">
+      <div className="absolute bottom-4 w-full h-[50px] flex items-center">
         <TextArea
+        ref={inputRef}
           className="flex-shrink-0 w-full resize-none text-base bg-white/70 dark:bg-black/70 h-[50px] textarea"
           value={input}
           onChange={handleInputChange}

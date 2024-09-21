@@ -67,7 +67,7 @@ const Messages = ({ fileId, isLoading, isPending }: MessagesProps) => {
   ];
   // const { ref, inView } = useInView();
 
-  // const bottomRef = useRef<HTMLSpanElement | null>(null);
+  const bottomRef = useRef<HTMLSpanElement | null>(null);
 
   // get older chats when scrolling up
   // useEffect(() => {
@@ -76,15 +76,14 @@ const Messages = ({ fileId, isLoading, isPending }: MessagesProps) => {
   //   }
   // }, [inView]);
 
-  // useEffect(() => {
-  //   if (bottomRef.current) {
-  //     bottomRef.current.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // }, [combinedMessages]);
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [combinedMessages]);
 
   return (
-    <div className="sm:max-h-[calc(100dvh-12rem)] flex flex-col flex-1 gap-4 p-4 overflow-y-auto">
-      <span style={{ visibility: "hidden" }}></span>
+    <div className="flex flex-col flex-1 gap-4 p-4 h-[calc(100%-100px)] overflow-y-scroll">
       {combinedMessages && combinedMessages.length > 0 ? (
         combinedMessages.map((message: MessageProps) => (
           <Message key={message.id} message={message} />
@@ -98,7 +97,7 @@ const Messages = ({ fileId, isLoading, isPending }: MessagesProps) => {
           </p>
         </div>
       )}
-      {/* <span ref={bottomRef}/> */}
+             {/* <span ref={bottomRef}  /> */}
     </div>
   );
 };
