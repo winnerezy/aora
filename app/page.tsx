@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Page() {
 
   return (
-    <section className=" flex flex-col items-center justify-center text-center gap-6 self-center w-full h-full">
+    <section className=" flex flex-col items-center justify-center text-center gap-6 self-center w-full h-[calc(100dvh-56px)]">
       <section className="flex flex-col md:flex-row">
         <div className="flex flex-col gap-8 items-center justify-center text-center flex-1">
           <h1 className="text-[120px] md:text-[160px] font-bold bg-gradient-to-tl from-secondary via-neutral-content to-primary text-transparent bg-clip-text">

@@ -6,7 +6,6 @@ const page = () => {
   return (
     <section className="flex flex-col w-full max-w-7xl mx-auto gap-4 h-full py-2 px-2">
       <DashboardBar />
-
       <UploadFile />
       <Dashboard />
     </section>
