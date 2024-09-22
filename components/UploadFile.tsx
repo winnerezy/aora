@@ -129,14 +129,14 @@ const UploadDropzone = () => {
               ) : null}
             
             </label>
-         
-          </div>
-          <input
+            <input
                 type="file"
                 id="dropzone-file"
                 {...getInputProps()}
                 accept=".pdf"
               />
+          </div>
+          
         </div>
       )}
     </Dropzone>
