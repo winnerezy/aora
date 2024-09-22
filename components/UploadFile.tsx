@@ -86,7 +86,6 @@ const UploadDropzone = () => {
         <div
           {...getRootProps()}
           className="m-4 w-[93%] h-64 border-dashed border rounded-lg"
-          onClick={() => document.getElementById("dropzone-file")?.click()}
         >
           <div className="w-full h-full flex items-center justify-center">
             <label
@@ -130,14 +129,14 @@ const UploadDropzone = () => {
               ) : null}
             
             </label>
-            <input
+         
+          </div>
+          <input
                 type="file"
                 id="dropzone-file"
                 {...getInputProps()}
-                hidden
                 accept=".pdf"
               />
-          </div>
         </div>
       )}
     </Dropzone>
