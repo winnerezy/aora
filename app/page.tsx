@@ -91,11 +91,7 @@ export default function Page() {
           </div>
         </div>
       </div> */}
-      <div className="absolute bottom-4 flex gap-2 self-center">
-        <Link href="/">Terms of Service</Link>
-        <span>|</span>
-        <Link href="/">Private Policy</Link>
-      </div>
+    
     </section>
   );
 }
