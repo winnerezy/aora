@@ -12,22 +12,7 @@ interface MessagesProps {
   isPending: boolean;
 }
 
-const Messages = ({ fileId, isLoading, isPending }: MessagesProps) => {
-  // const { isLoading: isAILoading } = useContext(ChatContext)
-  // const {
-  //   data,
-  //   isLoading: messagesLoading,
-  //   isFetchingNextPage,
-  //   error,
-  //   fetchNextPage,
-  //   hasNextPage,
-  // } = useInfiniteQuery({
-  //   initialPageParam: undefined,
-  //   queryKey: ["messages", fileId],
-  //   queryFn: async ({ pageParam }: { pageParam?: string }) =>
-  //     await getFileMessages(fileId, pageParam),
-  //   getNextPageParam: (lastPage) => lastPage.nextCursor ?? "",
-  // });
+const Messages = ({ isLoading, isPending }: MessagesProps) => {
 
   // AI loading  response
   const loadingMessages: MessageProps = {
@@ -49,10 +34,6 @@ const Messages = ({ fileId, isLoading, isPending }: MessagesProps) => {
     );
   }
 
-  // const prevMessages: MessageProps[] = data!.pages!.flatMap(
-  //   (page) => page.messages
-  // );
-
   const queryClient = useQueryClient();
 
   const messages: MessageProps[] | undefined = queryClient.getQueryData([
@@ -61,20 +42,10 @@ const Messages = ({ fileId, isLoading, isPending }: MessagesProps) => {
 
   // both the loading response and the messages array
   const combinedMessages = [
-    // ...(prevMessages.reverse() ?? []),
     ...(messages ?? []),
     ...(isPending ? [loadingMessages] : []),
   ];
-  // const { ref, inView } = useInView();
-
-  const bottomRef = useRef<HTMLSpanElement | null>(null);
-
-  // get older chats when scrolling up
-  // useEffect(() => {
-  //   if (hasNextPage && inView) {
-  //     fetchNextPage();
-  //   }
-  // }, [inView]);
+  const bottomRef = useRef<HTMLSpanElement | null>(null)
 
   useEffect(() => {
     if (bottomRef.current) {
@@ -97,7 +68,7 @@ const Messages = ({ fileId, isLoading, isPending }: MessagesProps) => {
           </p>
         </div>
       )}
-             {/* <span ref={bottomRef}  /> */}
+      <span ref={bottomRef} />
     </div>
   );
 };

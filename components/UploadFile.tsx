@@ -128,14 +128,15 @@ const UploadDropzone = () => {
                   </progress>
                 </div>
               ) : null}
-              <input
+            
+            </label>
+            <input
                 type="file"
                 id="dropzone-file"
                 {...getInputProps()}
                 hidden
                 accept=".pdf"
               />
-            </label>
           </div>
         </div>
       )}
