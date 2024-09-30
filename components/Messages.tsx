@@ -1,8 +1,6 @@
 
 import { cn } from "@/lib/utils";
 import { Message } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useEffect, useRef } from "react";
 
 interface MessagesProps { fileId: string, chats: Message[] }

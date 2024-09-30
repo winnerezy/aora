@@ -1,4 +1,4 @@
-import Chat from "@/components/chat/Chat"
+import Chat from "@/components/Chat"
 import PdfRenderer from "@/components/PdfRenderer"
 import { prisma } from "@/lib/utils/prisma"
 

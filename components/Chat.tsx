@@ -1,36 +1,25 @@
 "use client";
 
 import { createMessage } from "@/lib/utils/actions";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useChat } from "ai/react";
-import Link from "next/link";
-import {
-  ChangeEventHandler,
-  MouseEvent,
-  MouseEventHandler,
-  useRef,
-  useState,
-} from "react";
-import { BiChevronLeft, BiSend, BiXCircle } from "react-icons/bi";
-import { pdfjs } from "react-pdf";
-import TextArea from "react-textarea-autosize";
-import Toastify from "toastify-js";
-import "toastify-js/src/toastify.css";
-import Messages from "./Messages";
 import { Message } from "@/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRef, useState } from "react";
+import { BiSend } from "react-icons/bi";
+import { pdfjs } from "react-pdf";
+import "toastify-js/src/toastify.css";
 import { v4 as uuidv4 } from "uuid";
-import { Input } from "../ui/input";
+import Messages from "./Messages";
+import { Input } from "./ui/input";
 interface ChatProps {
   fileId: string;
   fileUrl: string;
 }
 
 const Chat = ({ fileId, fileUrl }: ChatProps) => {
-
   const [input, setInput] = useState("");
   const [pdfText, setPdfText] = useState<string>("");
-  
-  const inputRef = useRef<HTMLTextAreaElement | null>(null)
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const {
     data,
@@ -93,37 +82,47 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
   } = useMutation({
     mutationKey: ["chatmutate"],
     mutationFn: async () => {
+      if (inputRef.current) {
+        inputRef.current.value = input;
+      }
       const res = await fetch("/api/chat", {
         method: "POST",
-        body: JSON.stringify({ pdfText, message: input, fileId }),
+        body: JSON.stringify({ pdfText, message: inputRef.current?.value!, fileId }),
       });
       const ans = await res.json();
-      return ans
+      return ans;
     },
     async onMutate() {
-      const prevChats: Message[] | undefined = queryClient.getQueryData(["chat"]);
-      queryClient.setQueryData(
-        ["chat"],
-        (prevChats: Message[]) => [...(prevChats || []), { role: "user", content: input }]
-      );
+     setInput("")
+      const prevChats: Message[] | undefined = queryClient.getQueryData([
+        "chat",
+      ]);
+      queryClient.setQueryData(["chat"], (prevChats: Message[]) => [
+        ...(prevChats || []),
+        { role: "user", content: input },
+      ]);
       await createMessage(uuidv4(), input, "user", fileId);
     },
     async onSuccess(data) {
-     await createMessage(uuidv4(), data, "assistant", fileId);
+      await createMessage(uuidv4(), data, "assistant", fileId);
     },
     onSettled(data) {
-      const prevChats: Message[] | undefined = queryClient.getQueryData(["chat"]);
-      queryClient.setQueryData(
-        ["chat"],
-        (prevChats: Message[]) => [...(prevChats || []), { role: "assistant", content: data }]
-      );
+      const prevChats: Message[] | undefined = queryClient.getQueryData([
+        "chat",
+      ]);
+      queryClient.setQueryData(["chat"], (prevChats: Message[]) => [
+        ...(prevChats || []),
+        { role: "assistant", content: data },
+      ]);
+    },
+    onError() {
+      setInput(inputRef.current?.value!);
     },
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
-
 
   // if (pdfLoading) {
   //   return (
@@ -161,7 +160,7 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
   //   );
   // }
 
-  console.log(messages)
+  console.log(messages);
 
   return (
     <div className="relative w-full max-md:border-t md:border-l h-[100dvh] md:h-[calc(100dvh-50px)] px-2 flex flex-col">
@@ -176,8 +175,17 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
           placeholder="Let's get chatting!"
           className="max-w-[1000px] h-12"
           onChange={handleInputChange}
+          ref={inputRef}
+          onKeyDown={(e) => {
+            if (e.key == "Enter") {
+              handleSend();
+            }
+          }}
         />
-        <BiSend className="cursor-pointer text-2xl" onClick={() => handleSend()} />
+        <BiSend
+          className="cursor-pointer text-2xl"
+          onClick={() => handleSend()}
+        />
       </div>
     </div>
   );
