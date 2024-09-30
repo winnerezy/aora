@@ -19,6 +19,7 @@ import "toastify-js/src/toastify.css";
 import Messages from "./Messages";
 import { Message } from "@/types";
 import { v4 as uuidv4 } from "uuid";
+import { Input } from "../ui/input";
 interface ChatProps {
   fileId: string;
   fileUrl: string;
@@ -119,73 +120,64 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
     },
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
 
-  if (pdfLoading) {
-    return (
-      <div className="relative min-h-full flex flex-col justify-between gap-2 divide-y">
-        <div className="flex-1 flex justify-center items-center flex-col mb-28">
-          <div className="flex flex-col items-center gap-2">
-            <span className="loading loading-spinner loading-lg text-black dark:text-white" />
-            <h3 className="text-xl font-semibold">Loading</h3>
-            <p className="text-zinc-400 dark:text-zinc-200 text-sn">
-              Perparing Chats
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // if (pdfLoading) {
+  //   return (
+  //     <div className="relative min-h-full flex flex-col justify-between gap-2 divide-y">
+  //       <div className="flex-1 flex justify-center items-center flex-col mb-28">
+  //         <div className="flex flex-col items-center gap-2">
+  //           <span className="loading loading-spinner loading-lg text-black dark:text-white" />
+  //           <h3 className="text-xl font-semibold">Loading</h3>
+  //           <p className="text-zinc-400 dark:text-zinc-200 text-sn">
+  //             Perparing Chats
+  //           </p>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-  if (aiError) {
-    console.log(aiError.message, aiError.cause);
-    return (
-      <div className="relative min-h-full flex flex-col justify-between gap-2 divide-y">
-        <div className="flex-1 flex justify-center items-center flex-col mb-28">
-          <div className="flex flex-col items-center gap-2">
-            <BiXCircle className="text-red-500 size-[50px]" />
-            <h3 className="text-xl font-semibold">Error Loading Chats</h3>
-            <p className="text-zinc-400 dark:text-zinc-200 text-sn">
-              Please try again later
-            </p>
-            <Link href="/dashboard" className="flex items-center gap-1.5">
-              <BiChevronLeft /> Back
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // if (aiError) {
+  //   console.log(aiError.message, aiError.cause);
+  //   return (
+  //     <div className="relative min-h-full flex flex-col justify-between gap-2 divide-y">
+  //       <div className="flex-1 flex justify-center items-center flex-col mb-28">
+  //         <div className="flex flex-col items-center gap-2">
+  //           <BiXCircle className="text-red-500 size-[50px]" />
+  //           <h3 className="text-xl font-semibold">Error Loading Chats</h3>
+  //           <p className="text-zinc-400 dark:text-zinc-200 text-sn">
+  //             Please try again later
+  //           </p>
+  //           <Link href="/dashboard" className="flex items-center gap-1.5">
+  //             <BiChevronLeft /> Back
+  //           </Link>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+
+  console.log(messages)
+
   return (
-    <div className="w-full h-[calc(100%-100px)] flex flex-col justify-between gap-2">
-      <Messages
-        fileId={fileId}
-        messages={messages}
-        isLoading={isLoading}
-        isPending={isPending}
-      />
-      <div className="absolute bottom-4 w-full h-[50px] flex items-center">
-        <TextArea
-        ref={inputRef}
-          className="flex-shrink-0 w-full resize-none text-base bg-white/70 dark:bg-black/70 h-[50px] textarea"
-          value={input}
+    <div className="relative w-full max-md:border-t md:border-l h-[100dvh] md:h-[calc(100dvh-50px)] px-2 flex flex-col">
+      {/* <div className="self-center flex gap-x-2 items-center"  >
+      <p>Show PDF</p>
+      <Switch checked={pdfVisible} onCheckedChange={setPdfVisible} />
+    </div> */}
+
+      <Messages fileId={fileId} chats={messages} />
+      <div className="absolute bottom-2 left-[50%] -translate-x-[50%] w-full flex gap-4 items-center justify-center px-4">
+        <Input
+          placeholder="Let's get chatting!"
+          className="max-w-[1000px] h-12"
           onChange={handleInputChange}
-          autoFocus
-          rows={1}
-          maxRows={4}
-          placeholder="Enter your question"
         />
-        <button
-          disabled={isPending || input.length === 0}
-          type="button"
-          onClick={() => handleSend()}
-          className="absolute bg-transparent text-foreground right-[20px]"
-        >
-          <BiSend className="size-6" />
-        </button>
+        <BiSend className="cursor-pointer text-2xl" onClick={() => handleSend()} />
       </div>
     </div>
   );

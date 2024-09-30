@@ -1,38 +1,33 @@
-import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
-import "./globals.css";
-import "react-loading-skeleton/dist/skeleton.css";
-import Header from "@/components/Header";
-import cn from "classnames";
+"use client";
 
-const montserrat = Montserrat({
+import { Toaster } from "@/components/ui/toaster";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Poppins } from "next/font/google";
+import "./globals.css";
+
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
-
-export const metadata: Metadata = {
-  title: "Aora",
-  description: "PDF Chat Bot",
-};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const queryClient = new QueryClient();
   return (
-    <html lang="en">
-      <body className={cn(montserrat.className)}>
-        <script
-          src="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js"
-          type="module"
-        />
-        <div className="min-h-screen">
-          <Header />
-
-          <main className="flex">{children}</main>
-        </div>
-      </body>
-    </html>
+    <QueryClientProvider client={queryClient}>
+      <html lang="en" className="light">
+        <body className={`${poppins.className} antialiased`}>
+          <script
+            src="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js"
+            type="module"
+          />
+          <div>{children}</div>
+          <Toaster />
+        </body>
+      </html>
+    </QueryClientProvider>
   );
 }

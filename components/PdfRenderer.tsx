@@ -1,145 +1,41 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ScrollMode, Viewer } from "@react-pdf-viewer/core";
-import {
-  HorizontalScrollingIcon,
-  scrollModePlugin,
-  VerticalScrollingIcon,
-  WrappedScrollingIcon,
-} from "@react-pdf-viewer/scroll-mode";
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import { toolbarPlugin, ToolbarSlot } from "@react-pdf-viewer/toolbar";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
-import { useResizeDetector } from "react-resize-detector";
-import { z } from "zod";
+import { File } from "@prisma/client";
+import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { pageNavigationPlugin } from "@react-pdf-viewer/page-navigation";
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import "@react-pdf-viewer/page-navigation/lib/styles/index.css";
-interface PdfRenderProps {
-  url: string;
-}
+import type {
+  ToolbarSlot,
+  TransformToolbarSlot,
+} from "@react-pdf-viewer/toolbar";
+import { toolbarPlugin } from "@react-pdf-viewer/toolbar";
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
-const PdfRenderer = ({ url }: PdfRenderProps) => {
+const PdfRenderer = ({ file }: { file: File }) => {
+
   const toolbarPluginInstance = toolbarPlugin();
-  const { Toolbar } = toolbarPluginInstance;
-
   const pageNavigationPluginInstance = pageNavigationPlugin();
-  const {
-    CurrentPageInput,
-    GoToFirstPageButton,
-    GoToLastPageButton,
-    GoToNextPageButton,
-    GoToPreviousPage,
-  } = pageNavigationPluginInstance;
+  const { renderDefaultToolbar, Toolbar } = toolbarPluginInstance;
 
-  const scrollModePluginInstance = scrollModePlugin();
-
-  const { width, ref } = useResizeDetector();
-
-  const pageValidator = z.object({
-    page: z
-      .string()
-      .refine((num) => Number(num) > 0 && Number(num) <= numPages!),
+  const transform: TransformToolbarSlot = (slot: ToolbarSlot) => ({
+    ...slot,
+    SwitchTheme: () => <></>,
+    Open: () => <></>,
   });
-
-  const [numPages, setNumPages] = useState<number | undefined>(undefined);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
-  type TpageValidator = z.infer<typeof pageValidator>;
-
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-    setValue,
-  } = useForm<TpageValidator>({
-    defaultValues: {
-      page: String(currentPage),
-    },
-    resolver: zodResolver(pageValidator),
-  });
-
-  const handlePageSubmit = ({ page }: TpageValidator) => {
-    setCurrentPage(Number(page));
-    setValue("page", String(page));
-  };
 
   return (
-    <div
-      className="rpv-core__viewer w-full"
-      style={{
-        border: "1px solid rgba(0, 0, 0, 0.3)",
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-      }}
-    >
-      <div
-        className="text-black w-full shrink"
-        style={{
-          alignItems: "center",
-          backgroundColor: "#eeeeee",
-          borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
-          display: "flex",
-          padding: "4px",
-        }}
-      >
-        <Toolbar>
-          {(props: ToolbarSlot) => {
-            const {
-              CurrentPageInput,
-              Download,
-              EnterFullScreen,
-              GoToNextPage,
-              GoToPreviousPage,
-              NumberOfPages,
-              Print,
-              ShowSearchPopover,
-              Zoom,
-              ZoomIn,
-              ZoomOut,
-            } = props;
-            return (
-              <div className="w-full flex items-center gap-2 sm:justify-evenly h-12">
-                <div className="flex items-center sm:gap-2">
-                  <ShowSearchPopover />
-                  <ZoomOut />
-                  <Zoom />
-                  <ZoomIn />
-                </div>
-                <div className="flex items-center sm:gap-2">
-                  <GoToPreviousPage />
-                  <GoToNextPage />
-                  <CurrentPageInput />
-                  / <NumberOfPages />
-                </div>
-                <div className="flex items-center gap-2">
-                  <EnterFullScreen />
-                  <Download />
-                  <Print />
-              </div>
-              </div>
-            );
-          }}
-        </Toolbar>
-      </div>
-
-      <div
-        style={{
-          border: "1px solid rgba(0, 0, 0, 0.3)",
-        }}
-        className="h-[calc(100dvh-120px)] flex flex-col w-full sm:50vh"
-      >
-        <Viewer
-          fileUrl={url}
-          scrollMode={ScrollMode.Page}
-          plugins={[toolbarPluginInstance]}
-        />
-      </div>
+    <div className="w-full h-[calc(100dvh-40px)]">
+      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.js">
+        <div className="w-full h-[90dvh] flex-col text-white !important">
+          <div className="align-center bg-[#eeeeee] flex p-1">
+            <Toolbar>{renderDefaultToolbar(transform)}</Toolbar>
+          </div>
+          <Viewer
+            fileUrl={file.url as string}
+            plugins={[toolbarPluginInstance, pageNavigationPluginInstance]}
+          />
+        </div>
+      </Worker>
     </div>
   );
 };
