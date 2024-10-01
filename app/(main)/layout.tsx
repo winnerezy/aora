@@ -15,7 +15,7 @@ export default function MainLayout({
   return (
     <main className="min-h-screen">
       <Topbar />
-      <div >{children}</div>
+      <div>{children}</div>
     </main>
   );
 }

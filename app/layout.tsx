@@ -2,12 +2,12 @@
 
 import { Toaster } from "@/components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Poppins } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 
-const poppins = Poppins({
+const roboto = Roboto({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["100", "300", "400", "500", "700", "900"],
 });
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <QueryClientProvider client={queryClient}>
       <html lang="en" className="light">
-        <body className={`${poppins.className} antialiased`}>
+        <body className={`${roboto.className} antialiased`}>
           <script
             src="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js"
             type="module"

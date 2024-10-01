@@ -8,13 +8,9 @@ import Link from "next/link";
 const Topbar = async () => {
   const session = await auth();
 
-  if (!session?.user) {
-    redirect("/sign-in");
-  }
-
   const user = await prisma.user.findFirst({
     where: {
-      email: session.user.email!,
+      email: session?.user?.email!,
     },
   });
 

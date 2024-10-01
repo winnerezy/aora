@@ -76,7 +76,8 @@
     font-size: clamp(20px, 40vw, 70px);
   }
    .hero2 {
-  font-size: clamp(10px, 20vw, 30px);
+  font-size: clamp(10px, 10vw, 25px);
+  text-align: center;
   }
   .hero3 {
     font-size: clamp(5px, 50vw, 20px);

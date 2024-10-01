@@ -2,7 +2,7 @@ import Auth from "@/components/Auth"
 
 const Page = () => {
   return (
-    <div className='flex w-full h-full items-center justify-center'>
+    <div className='flex w-full min-h-screen items-center justify-center'>
        <Auth/>
     </div>
   )

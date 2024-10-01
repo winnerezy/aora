@@ -1,10 +1,5 @@
-import { auth } from "@/auth";
 import FileGrid from "@/components/FileGrid";
-import { Button } from "@/components/ui/button";
 import UploadFile from "@/components/UploadFile";
-import { prisma } from "@/lib/utils/prisma";
-import { redirect } from "next/navigation";
-import { FaGhost } from "react-icons/fa6";
 
 const page = async () => {
 
