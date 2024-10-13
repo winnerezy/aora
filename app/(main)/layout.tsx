@@ -3,7 +3,7 @@ import Topbar from "@/components/Topbar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Aura",
+  title: "Aora",
   description: "Chat PDF",
 };
 
