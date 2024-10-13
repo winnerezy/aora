@@ -82,18 +82,18 @@ const Chat = ({ fileId, fileUrl }: ChatProps) => {
   } = useMutation({
     mutationKey: ["chatmutate"],
     mutationFn: async () => {
-      if (inputRef.current) {
-        inputRef.current.value = input;
-      }
+      // if (inputRef.current) {
+      //   inputRef.current.value = input;
+      // }
       const res = await fetch("/api/chat", {
         method: "POST",
-        body: JSON.stringify({ pdfText, message: inputRef.current?.value!, fileId }),
+        body: JSON.stringify({ pdfText, message: input, fileId }),
       });
       const ans = await res.json();
       return ans;
     },
     async onMutate() {
-     setInput("")
+    //  setInput("")
       const prevChats: Message[] | undefined = queryClient.getQueryData([
         "chat",
       ]);
